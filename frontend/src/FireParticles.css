@@ -1,0 +1,91 @@
+.fire-particles-container {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: #030000;
+}
+
+.fire-bg-shift {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(220, 30, 0, 0.25), transparent 70%);
+  animation: pulseBg 4s infinite alternate ease-in-out;
+}
+
+@keyframes pulseBg {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+
+.ember {
+  position: absolute;
+  bottom: -20px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #fff, 0 0 10px #ffeb3b, 0 0 20px #ff4500, 0 0 40px #ff0000;
+  animation: floatUp ease-in infinite;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--start-opacity);
+  }
+  50% {
+    transform: translateY(-50vh) translateX(var(--wiggle)) scale(1.3);
+  }
+  100% {
+    transform: translateY(-110vh) translateX(calc(var(--wiggle) * -1)) scale(0);
+    opacity: 0;
+  }
+}
+
+.bubble {
+  position: absolute;
+  bottom: -150px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 69, 0, 0.5);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 100, 0, 0.2), rgba(255, 0, 0, 0.05));
+  box-shadow: inset 0 0 40px rgba(255, 69, 0, 0.6), 0 0 30px rgba(255, 0, 0, 0.2);
+  animation: floatBubble ease-in infinite;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+  15% { opacity: 1; }
+  85% { opacity: 0.8; }
+  100% {
+    transform: translateY(-120vh) translateX(var(--wiggle)) scale(1.2) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+.fire-base {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25vh;
+  background: linear-gradient(to top, rgba(255, 30, 0, 0.4), transparent);
+  filter: blur(30px);
+  animation: pulseFire 3s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pulseFire {
+  0% { opacity: 0.6; height: 15vh; transform: scaleY(1); }
+  100% { opacity: 1; height: 35vh; transform: scaleY(1.1); }
+}
