@@ -122,6 +122,7 @@ function App() {
             <a href="#skills">Arsenal</a>
             <a href="#projects">Conquests</a>
             <a href="#ai">AI Core</a>
+            <a href="#visit">Access</a>
           </motion.div>
         </div>
       </nav>
@@ -285,6 +286,35 @@ function App() {
               </motion.div>
             ))}
           </div>
+        </motion.div>
+      </section>
+
+      {/* Visit Section */}
+      <section id="visit" className="section-container">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="visit-portal glass-card"
+        >
+          <div className="portal-content">
+            <h3 className="section-title">Deployment Portal<span className="dot">.</span></h3>
+            <p className="visit-description">
+              The architecture is live. Step through the gate to experience the full deployment of this demonic engine.
+            </p>
+            <div className="portal-actions">
+              <a 
+                href="https://ansuman-portfolio.vercel.app" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="btn-primary large"
+              >
+                <Zap size={24} /> ENTER PROTOTYPE
+              </a>
+            </div>
+          </div>
+          <div className="portal-glow"></div>
         </motion.div>
       </section>
 

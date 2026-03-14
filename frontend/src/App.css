@@ -556,6 +556,45 @@
   will-change: transform, border-radius;
 }
 
+/* Visit Section */
+.visit-portal {
+  text-align: center;
+  padding: 80px 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 2px solid var(--accent-color);
+  background: radial-gradient(circle at center, rgba(255, 69, 0, 0.1) 0%, transparent 70%);
+  position: relative;
+  overflow: hidden;
+}
+
+.visit-description {
+  font-size: 1.4rem;
+  color: #ccc;
+  margin-bottom: 50px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.portal-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.portal-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: var(--accent-color);
+  filter: blur(120px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
 /* Footer / Contact */
 .footer {
   padding: 100px 20px 40px;
