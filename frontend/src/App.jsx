@@ -258,6 +258,17 @@ function App() {
                     <span key={i} className="tech-badge">{tech.trim()}</span>
                   ))}
                 </div>
+                <div className="project-actions">
+                  <a 
+                    href={project.projectUrl} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="btn-primary small"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Zap size={16} /> VISIT PROTOTYPE
+                  </a>
+                </div>
               </motion.a>
             ))}
           </div>
@@ -305,7 +316,7 @@ function App() {
             </p>
             <div className="portal-actions">
               <a 
-                href="https://ansuman-portfolio.vercel.app" 
+                href="https://ansuman-mahapatra.github.io/Portfolio/" 
                 target="_blank" 
                 rel="noreferrer" 
                 className="btn-primary large"

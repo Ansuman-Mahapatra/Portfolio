@@ -251,6 +251,12 @@
   box-shadow: 0 0 30px var(--accent-color), 0 0 50px var(--accent-secondary);
 }
 
+.btn-primary.small {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  margin-top: 15px;
+}
+
 .btn-primary.large {
   padding: 16px 40px;
   font-size: 1.2rem;
@@ -490,6 +496,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 20px;
+}
+
+.project-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .tech-badge {
