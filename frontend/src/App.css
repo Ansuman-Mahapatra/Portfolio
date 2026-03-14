@@ -376,18 +376,44 @@
   margin: 5px 0 10px;
 }
 
-/* Skills Section - Balanced Grid */
+/* Skills Section - Balanced Centered Grid */
 .skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 30px;
-  justify-content: center; /* Center items if they don't fill the row */
+  justify-content: center; /* This perfectly centers the last row */
 }
 
-/* Ensure cards even out instead of leaving hollow spaces */
-.skills-grid > div, .projects-grid > a {
-  width: 100%;
-  height: 100%;
+.skills-grid > div {
+  flex: 1 1 300px; /* Allow cards to grow but maintain a base width */
+  max-width: 380px; /* Prevent them from becoming too wide on huge screens */
+}
+
+/* Ensure projects also center correctly */
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+.projects-grid > a {
+  flex: 1 1 350px;
+  max-width: 450px;
+  text-decoration: none;
+}
+
+/* AI Integrations - Balanced Centered Grid */
+.ai-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.ai-grid > div {
+  flex: 1 1 320px;
+  max-width: 400px;
 }
 
 .skill-icon-wrapper {
@@ -434,13 +460,7 @@
   filter: brightness(1.2);
 }
 
-/* Projects Section - Balanced Grid */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 40px;
-  justify-content: center;
-}
+/* Projects Section - Balanced Centered Grid handled above */
 
 .project-type {
   font-size: 0.9rem;
@@ -490,13 +510,7 @@
   color: #000;
 }
 
-/* AI Integrations - Balanced Grid */
-.ai-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
-  justify-content: center;
-}
+/* AI Integrations - Balanced Centered Grid handled above */
 
 .ai-card {
   text-align: center;
