@@ -9,6 +9,7 @@ function App() {
   const [skills, setSkills] = useState([]);
   const [projects, setProjects] = useState([]);
   const [aiIntegrations, setAiIntegrations] = useState([]);
+  const [experiences, setExperiences] = useState([]);
   
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -33,6 +34,11 @@ function App() {
       .then(res => res.json())
       .then(data => setAiIntegrations(data))
       .catch(err => console.error("Error fetching AI integrations", err));
+
+    fetch(`${import.meta.env.VITE_API_URL}/experiences`)
+      .then(res => res.json())
+      .then(data => setExperiences(data))
+      .catch(err => console.error("Error fetching experiences", err));
   }, []);
 
   if (!profile) {
@@ -45,8 +51,39 @@ function App() {
   }
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    hidden: { opacity: 0, y: 100, scale: 0.9, rotateX: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1, 
+      rotateX: 0,
+      transition: { 
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+        mass: 1.5
+      } 
+    }
+  };
+
+  const slashInLeft = {
+    hidden: { opacity: 0, x: -150, skewX: 20 },
+    visible: {
+      opacity: 1, 
+      x: 0, 
+      skewX: 0,
+      transition: { type: "spring", stiffness: 120, damping: 12 }
+    }
+  };
+
+  const slashInRight = {
+    hidden: { opacity: 0, x: 150, skewX: -20 },
+    visible: {
+      opacity: 1, 
+      x: 0, 
+      skewX: 0,
+      transition: { type: "spring", stiffness: 120, damping: 12 }
+    }
   };
 
   const staggerContainer = {
@@ -54,7 +91,8 @@ function App() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.15,
+        delayChildren: 0.1
       }
     }
   };
@@ -80,6 +118,7 @@ function App() {
             className="nav-links"
           >
             <a href="#about">Origins</a>
+            <a href="#experience">History</a>
             <a href="#skills">Arsenal</a>
             <a href="#projects">Conquests</a>
             <a href="#ai">AI Core</a>
@@ -134,6 +173,34 @@ function App() {
         </motion.div>
       </section>
 
+      {/* Experience Section */}
+      <section id="experience" className="section-container">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+        >
+          <h3 className="section-title">Battle History<span className="dot">.</span></h3>
+          <div className="experience-timeline">
+            {experiences.map((exp, index) => (
+              <motion.div 
+                key={exp.id} 
+                variants={index % 2 === 0 ? slashInLeft : slashInRight}
+                className="experience-item glass-card"
+              >
+                <div className="exp-dot"></div>
+                <div className="exp-content">
+                  <span className="exp-duration">{exp.duration}</span>
+                  <h4>{exp.role} @ <span className="text-highlight">{exp.company}</span></h4>
+                  <p>{exp.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
       {/* Skills Section */}
       <section id="skills" className="section-container">
         <motion.div 
@@ -145,7 +212,11 @@ function App() {
           <h3 className="section-title">Technical Arsenal<span className="dot">.</span></h3>
           <div className="skills-grid">
             {skills.map((skill, index) => (
-              <motion.div key={skill.id} variants={fadeInUp} className="skill-card glass-card">
+              <motion.div 
+                key={skill.id} 
+                variants={index % 2 === 0 ? slashInLeft : slashInRight} 
+                className="skill-card glass-card"
+              >
                 <div className="skill-icon-wrapper">
                   {index % 4 === 0 && <Code2 size={28} className="accent-icon" />}
                   {index % 4 === 1 && <Sword size={28} className="accent-icon" />}
@@ -170,13 +241,13 @@ function App() {
           <h3 className="section-title">Conquests & Creations<span className="dot">.</span></h3>
           <div className="projects-grid">
             {projects.map((project, idx) => (
-              <motion.div 
+              <motion.a 
+                href={project.projectUrl}
+                target="_blank"
+                rel="noreferrer"
                 key={project.id} 
-                className="project-card glass-card"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="project-card glass-card clickable"
+                variants={idx % 2 === 0 ? slashInLeft : slashInRight}
               >
                 <div className="project-type">{project.type}</div>
                 <h4 className="project-name">{project.name}</h4>
@@ -186,7 +257,7 @@ function App() {
                     <span key={i} className="tech-badge">{tech.trim()}</span>
                   ))}
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </motion.div>
@@ -202,8 +273,12 @@ function App() {
         >
           <h3 className="section-title">Dark AI Core<span className="dot">.</span></h3>
           <div className="ai-grid">
-            {aiIntegrations.map((ai) => (
-              <motion.div key={ai.id} variants={fadeInUp} className="ai-card glass-card">
+            {aiIntegrations.map((ai, index) => (
+              <motion.div 
+                key={ai.id} 
+                variants={index % 2 === 0 ? slashInLeft : slashInRight} 
+                className="ai-card glass-card"
+              >
                 <div className="ai-glow"></div>
                 <h4>{ai.name}</h4>
                 <p>{ai.description}</p>

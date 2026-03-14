@@ -4,10 +4,12 @@ import com.portfolio.backend.model.AiIntegration;
 import com.portfolio.backend.model.Profile;
 import com.portfolio.backend.model.Project;
 import com.portfolio.backend.model.Skill;
+import com.portfolio.backend.model.Experience;
 import com.portfolio.backend.repository.AiIntegrationRepository;
 import com.portfolio.backend.repository.ProfileRepository;
 import com.portfolio.backend.repository.ProjectRepository;
 import com.portfolio.backend.repository.SkillRepository;
+import com.portfolio.backend.repository.ExperienceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,9 @@ public class PortfolioController {
     @Autowired
     private AiIntegrationRepository aiRepo;
 
+    @Autowired
+    private ExperienceRepository experienceRepo;
+
     @GetMapping("/profile")
     public Profile getProfile() {
         return profileRepo.findAll().stream().findFirst().orElse(null);
@@ -51,5 +56,10 @@ public class PortfolioController {
     @GetMapping("/ai-integrations")
     public List<AiIntegration> getAiIntegrations() {
         return aiRepo.findAll();
+    }
+
+    @GetMapping("/experiences")
+    public List<Experience> getExperiences() {
+        return experienceRepo.findAll();
     }
 }

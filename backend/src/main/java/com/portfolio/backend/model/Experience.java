@@ -9,13 +9,12 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "projects")
-public class Project {
+@Document(collection = "experiences")
+public class Experience {
     @Id
     private String id;
-    private String type;
-    private String name;
+    private String role;
+    private String company;
+    private String duration;
     private String description;
-    private String technologies;
-    private String projectUrl;
 }

@@ -4,10 +4,12 @@ import com.portfolio.backend.model.AiIntegration;
 import com.portfolio.backend.model.Profile;
 import com.portfolio.backend.model.Project;
 import com.portfolio.backend.model.Skill;
+import com.portfolio.backend.model.Experience;
 import com.portfolio.backend.repository.AiIntegrationRepository;
 import com.portfolio.backend.repository.ProfileRepository;
 import com.portfolio.backend.repository.ProjectRepository;
 import com.portfolio.backend.repository.SkillRepository;
+import com.portfolio.backend.repository.ExperienceRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +23,8 @@ public class DataSeeder {
     CommandLineRunner initDatabase(ProfileRepository profileRepo,
                                    SkillRepository skillRepo,
                                    ProjectRepository projectRepo,
-                                   AiIntegrationRepository aiRepo) {
+                                   AiIntegrationRepository aiRepo,
+                                   ExperienceRepository experienceRepo) {
         return args -> {
             // Seed Profile
             if (profileRepo.count() == 0) {
@@ -55,14 +58,14 @@ public class DataSeeder {
             // Seed Projects
             if (projectRepo.count() == 0) {
                 projectRepo.saveAll(List.of(
-                        new Project(null, "Java Desktop Applications", "Hotel Management System", "A complete hotel operations platform with room booking, customer check-in/out, employee & driver management, billing system, and real-time room status tracking.", "Java Swing • MySQL • JDBC • rs2xml • JCalendar"),
-                        new Project(null, "Java Desktop Applications", "Hospital Management System", "Full-featured hospital system managing patients, doctors, rooms, departments, appointments, and role-based access (Admin/Doctor/Reception).", "Java Swing • MySQL • JDBC • Multi-user Login"),
-                        new Project(null, "Java Desktop Applications", "University Management System", "Comprehensive university portal with student/faculty management, fee structure, marks entry, examination system, and leave applications.", "Java Swing • MySQL • JDBC • Modular Design"),
-                        new Project(null, "Java Desktop Applications", "Employee Management System", "Enterprise-level employee management with CRUD operations, salary tracking, dynamic user authentication, and permanent data storage.", "Java Swing • MySQL • JDateChooser • rs2xml"),
-                        new Project(null, "Java Backend Projects", "Farmer-to-Farmer Direct Transfer System", "Spring Boot REST API enabling direct produce trading between farmers with AI-powered price prediction, JWT authentication, and real-time transaction logging.", "Spring Boot • Spring Security • MongoDB • REST API • AI Integration"),
-                        new Project(null, "Full-Stack & Intelligent Systems", "AI Voice Assistant", "Intelligent desktop assistant capable of weather updates, news, Wikipedia search, translations, and natural conversations using OpenAI API.", "Python • OpenAI • SpeechRecognition • pyttsx3 • Tkinter"),
-                        new Project(null, "Full-Stack & Intelligent Systems", "Real-Time Language Translator", "Voice & text translator with 100+ language support, speech recognition, text-to-speech, admin panel, and startup animation.", "Python • Tkinter • Googletrans • MySQL • Speech API"),
-                        new Project(null, "Full-Stack & Intelligent Systems", "Home Inventory Management System (Team)", "Smart inventory tracker with category management, low-stock alerts, search/filter, and responsive dashboard.", "React.js • Node.js • MongoDB • Tailwind • SpringBoot • RestAPI")
+                        new Project(null, "Java Desktop Applications", "Hotel Management System", "A complete hotel operations platform with room booking, customer check-in/out, employee & driver management, billing system, and real-time room status tracking.", "Java Swing • MySQL • JDBC • rs2xml • JCalendar", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Java Desktop Applications", "Hospital Management System", "Full-featured hospital system managing patients, doctors, rooms, departments, appointments, and role-based access (Admin/Doctor/Reception).", "Java Swing • MySQL • JDBC • Multi-user Login", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Java Desktop Applications", "University Management System", "Comprehensive university portal with student/faculty management, fee structure, marks entry, examination system, and leave applications.", "Java Swing • MySQL • JDBC • Modular Design", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Java Desktop Applications", "Employee Management System", "Enterprise-level employee management with CRUD operations, salary tracking, dynamic user authentication, and permanent data storage.", "Java Swing • MySQL • JDateChooser • rs2xml", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Java Backend Projects", "Farmer-to-Farmer Direct Transfer System", "Spring Boot REST API enabling direct produce trading between farmers with AI-powered price prediction, JWT authentication, and real-time transaction logging.", "Spring Boot • Spring Security • MongoDB • REST API • AI Integration", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Full-Stack & Intelligent Systems", "AI Voice Assistant", "Intelligent desktop assistant capable of weather updates, news, Wikipedia search, translations, and natural conversations using OpenAI API.", "Python • OpenAI • SpeechRecognition • pyttsx3 • Tkinter", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Full-Stack & Intelligent Systems", "Real-Time Language Translator", "Voice & text translator with 100+ language support, speech recognition, text-to-speech, admin panel, and startup animation.", "Python • Tkinter • Googletrans • MySQL • Speech API", "https://github.com/Ansuman-Mahapatra"),
+                        new Project(null, "Full-Stack & Intelligent Systems", "Home Inventory Management System (Team)", "Smart inventory tracker with category management, low-stock alerts, search/filter, and responsive dashboard.", "React.js • Node.js • MongoDB • Tailwind • SpringBoot • RestAPI", "https://github.com/Ansuman-Mahapatra")
                 ));
             }
 
@@ -72,6 +75,14 @@ public class DataSeeder {
                         new AiIntegration(null, "Machine Learning Model Deployment", "Seamlessly integrating pre-trained ML models into backend systems for predictive analytics and automation."),
                         new AiIntegration(null, "Natural Language Processing", "Implementing NLP capabilities for chatbots, sentiment analysis, and intelligent data extraction."),
                         new AiIntegration(null, "Computer Vision APIs", "Building APIs that leverage computer vision models for image recognition and processing tasks.")
+                ));
+            }
+
+            // Seed Experience
+            if (experienceRepo.count() == 0) {
+                experienceRepo.saveAll(List.of(
+                        new Experience(null, "Backend Developer", "Freelance", "2023 - Present", "Designing and implementing scalable REST APIs using Spring Boot and MongoDB."),
+                        new Experience(null, "AI Integration Engineer", "Tech Innovators", "2022 - 2023", "Integrated OpenAI and other LLMs into enterprise workflows to automate content generation.")
                 ));
             }
         };

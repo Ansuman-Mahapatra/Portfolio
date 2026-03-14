@@ -282,11 +282,12 @@
 .glass-card {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  padding: 40px;
-  transition: all 0.4s ease;
+  padding: 50px 40px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
   overflow: hidden;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* Egg shape */
 }
 
 .glass-card::before {
@@ -306,6 +307,7 @@
   border-color: var(--accent-color);
   box-shadow: 0 0 30px rgba(255, 69, 0, 0.15), inset 0 0 20px rgba(255, 69, 0, 0.05);
   transform: translateY(-5px);
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; /* Morph to cloud shape */
 }
 
 /* About Section */
@@ -316,6 +318,48 @@
   text-align: center;
   font-weight: 500;
   text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+/* Experience Timeline */
+.experience-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.experience-item {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  text-align: left;
+}
+
+.exp-dot {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+.exp-duration {
+  font-size: 0.9rem;
+  color: var(--accent-secondary);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.text-highlight {
+  color: var(--accent-color);
+}
+
+.exp-content h4 {
+  font-size: 1.5rem;
+  margin: 5px 0 10px;
 }
 
 /* Skills Section */
@@ -351,6 +395,15 @@
   color: var(--text-muted);
   font-size: 1.05rem;
   font-weight: 600;
+}
+
+.project-card.clickable {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.project-card.clickable:hover {
+  transform: scale(1.02) translateY(-10px);
 }
 
 /* Projects Section */
