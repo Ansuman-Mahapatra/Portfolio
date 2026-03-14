@@ -362,11 +362,18 @@
   margin: 5px 0 10px;
 }
 
-/* Skills Section */
+/* Skills Section - Balanced Grid */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
+  justify-content: center; /* Center items if they don't fill the row */
+}
+
+/* Ensure cards even out instead of leaving hollow spaces */
+.skills-grid > div, .projects-grid > a {
+  width: 100%;
+  height: 100%;
 }
 
 .skill-icon-wrapper {
@@ -376,6 +383,12 @@
   display: inline-flex;
   background: #000;
   box-shadow: 0 0 15px rgba(255, 69, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.skill-card:hover .skill-icon-wrapper {
+  transform: rotateY(180deg) scale(1.2);
+  border-color: var(--accent-color);
 }
 
 .accent-icon {
@@ -404,13 +417,15 @@
 
 .project-card.clickable:hover {
   transform: scale(1.02) translateY(-10px);
+  filter: brightness(1.2);
 }
 
-/* Projects Section */
+/* Projects Section - Balanced Grid */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 40px;
+  justify-content: center;
 }
 
 .project-type {
@@ -453,13 +468,20 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: inset 0 0 5px rgba(255, 69, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
-/* AI Integrations */
+.tech-badge:hover {
+  background: var(--accent-color);
+  color: #000;
+}
+
+/* AI Integrations - Balanced Grid */
 .ai-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 30px;
+  justify-content: center;
 }
 
 .ai-card {
@@ -498,6 +520,12 @@
   font-size: 1.1rem;
   position: relative;
   z-index: 1;
+}
+
+/* Micro-transitions on scroll */
+.glass-card {
+  /* Existing styles */
+  will-change: transform, border-radius;
 }
 
 /* Footer / Contact */
