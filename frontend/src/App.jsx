@@ -81,22 +81,22 @@ function App() {
   };
 
   const slashInLeft = {
-    hidden: { opacity: 0, x: -150, skewX: 20 },
+    hidden: { opacity: 0, x: -80, skewX: 5 },
     visible: {
       opacity: 1, 
       x: 0, 
       skewX: 0,
-      transition: { type: "spring", stiffness: 120, damping: 12 }
+      transition: { type: "spring", stiffness: 80, damping: 15 }
     }
   };
 
   const slashInRight = {
-    hidden: { opacity: 0, x: 150, skewX: -20 },
+    hidden: { opacity: 0, x: 80, skewX: -5 },
     visible: {
       opacity: 1, 
       x: 0, 
       skewX: 0,
-      transition: { type: "spring", stiffness: 120, damping: 12 }
+      transition: { type: "spring", stiffness: 80, damping: 15 }
     }
   };
 

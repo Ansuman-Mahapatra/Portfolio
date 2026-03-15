@@ -142,6 +142,7 @@
   padding: 100px 20px 0;
   position: relative;
   overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .hero-content {
@@ -263,7 +264,8 @@
 }
 
 html {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
 }
 
 /* Layout Utilities */
@@ -277,7 +279,6 @@ html {
   flex-direction: column;
   justify-content: center;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
 }
 
 .section-title {
