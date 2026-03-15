@@ -193,31 +193,50 @@ function App() {
       {/* Hero Section */}
       <section className="hero-section">
         <motion.div 
-          className="hero-content"
+          className="hero-container"
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
         >
-          <motion.h1 variants={fadeInUp} className="hero-title">
-            <span className="text-gradient">{profile.name}</span>
-          </motion.h1>
-          <motion.h2 variants={fadeInUp} className="hero-subtitle">
-            {profile.title}
-          </motion.h2>
-          <motion.p variants={fadeInUp} className="hero-tagline">
-            {profile.tagline}
-          </motion.p>
-          
-          <motion.div variants={fadeInUp} className="hero-actions">
-            <a href={profile.githubUrl} target="_blank" rel="noreferrer" className="btn-social">
-              <Github size={20} /> GitHub
-            </a>
-            <a href={profile.linkedinUrl} target="_blank" rel="noreferrer" className="btn-social">
-              <Linkedin size={20} /> LinkedIn
-            </a>
-            <a href="#contact" className="btn-primary">
-              <Flame size={20} /> Ignite Contact
-            </a>
+          <motion.div className="hero-content" variants={fadeInUp}>
+            <motion.h1 variants={fadeInUp} className="hero-title">
+              <span className="text-gradient">{profile.name}</span>
+            </motion.h1>
+            <motion.h2 variants={fadeInUp} className="hero-subtitle">
+              {profile.title}
+            </motion.h2>
+            <motion.p variants={fadeInUp} className="hero-tagline">
+              {profile.tagline}
+            </motion.p>
+            
+            <motion.div variants={fadeInUp} className="hero-actions">
+              <a href={profile.githubUrl} target="_blank" rel="noreferrer" className="btn-social">
+                <Github size={20} /> GitHub
+              </a>
+              <a href={profile.linkedinUrl} target="_blank" rel="noreferrer" className="btn-social">
+                <Linkedin size={20} /> LinkedIn
+              </a>
+              <a href="#contact" className="btn-primary">
+                <Flame size={20} /> Ignite Contact
+              </a>
+            </motion.div>
+          </motion.div>
+
+          <motion.div 
+            variants={fadeInUp}
+            className="hero-photo-wrapper"
+          >
+            <div className="photo-glitch-container">
+              <img 
+                src={profile.photoUrl || "/ansuman.jpeg"} 
+                alt={profile.name} 
+                className="hero-photo"
+              />
+              <div className="photo-scanline"></div>
+              <div className="photo-glow"></div>
+            </div>
+            <div className="photo-frame-top"></div>
+            <div className="photo-frame-bottom"></div>
           </motion.div>
         </motion.div>
       </section>

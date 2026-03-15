@@ -133,6 +133,12 @@ public class PortfolioController {
         return profileRepo.save(profile);
     }
 
+    @PutMapping("/admin/profile/{id}")
+    public Profile updateProfile(@PathVariable String id, @RequestBody Profile profile) {
+        profile.setId(id);
+        return profileRepo.save(profile);
+    }
+
     // Project Management
     @PostMapping("/admin/projects")
     public Project addProject(@RequestBody Project project) {

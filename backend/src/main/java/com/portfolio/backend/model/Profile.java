@@ -20,4 +20,5 @@ public class Profile {
     private String resumeUrl;
     private String githubUrl;
     private String linkedinUrl;
+    private String photoUrl;
 }

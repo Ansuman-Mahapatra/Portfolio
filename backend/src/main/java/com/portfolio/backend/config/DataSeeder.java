@@ -39,7 +39,8 @@ public class DataSeeder {
                         "As a Backend Developer & AI Integration Engineer, I specialize in creating robust, scalable systems that leverage the power of artificial intelligence. With expertise in Java, Spring Boot, Python, and databases like MySQL and MongoDB, I build solutions that drive innovation and efficiency.",
                         "Ansuman_Resume.pdf",
                         "https://github.com/Ansuman-Mahapatra",
-                        "https://www.linkedin.com/in/ansuman-mahapatra-30661a2b2/"
+                        "https://www.linkedin.com/in/ansuman-mahapatra-30661a2b2/",
+                        "/ansuman.jpeg"
                 );
                 profileRepo.save(profile);
             }
