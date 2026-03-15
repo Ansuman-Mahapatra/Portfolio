@@ -1,0 +1,66 @@
+.intro-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999; /* Highest possible z-index to sit on top of everything */
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.intro-fire-bg {
+  position: absolute;
+  inset: -20%;
+  z-index: 1;
+  mix-blend-mode: color-dodge;
+  animation: introFireFlicker 0.1s infinite alternate;
+}
+
+@keyframes introFireFlicker {
+  0% { transform: scale(1) translate(2px, 2px); }
+  100% { transform: scale(1.02) translate(-2px, -2px); }
+}
+
+.intro-character-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.intro-character {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 50% 80%; /* Anchors character towards the base so he flexes upwards and forwards */
+}
+
+.intro-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.intro-blood-drop {
+  position: absolute;
+  background: radial-gradient(circle, #ff1a1a 0%, #8b0000 60%, transparent 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 20px #ff0000, 0 0 40px #ff4500;
+  filter: blur(1px);
+}
