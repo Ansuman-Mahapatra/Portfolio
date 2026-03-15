@@ -5,137 +5,138 @@ import './ProjectTimeline.css';
 
 export default function ProjectTimeline({ projects }) {
   const dotRefs = useRef([]);
-  const [pathD, setPathD] = useState('');
   const wrapperRef = useRef(null);
-
-  // Build the smooth snake SVG path by measuring dot positions
+  const [pathD, setPathD] = useState('');
   const [dotPoints, setDotPoints] = useState([]);
 
-  const buildPath = () => {
-    if (!wrapperRef.current || dotRefs.current.length === 0) return;
+  const measure = () => {
+    if (!wrapperRef.current) return;
     const wrapRect = wrapperRef.current.getBoundingClientRect();
+    const scrollY = window.scrollY;
+    const scrollX = window.scrollX;
 
-    const points = dotRefs.current.map(dot => {
-      if (!dot) return null;
-      const r = dot.getBoundingClientRect();
-      return {
-        x: r.left + r.width / 2 - wrapRect.left,
-        y: r.top + r.height / 2 - wrapRect.top,
-      };
+    const pts = dotRefs.current
+      .map(el => {
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return {
+          // Position relative to wrapper, accounting for page scroll
+          x: r.left + r.width / 2 - wrapRect.left + scrollX - (wrapRect.left + scrollX - wrapRect.left),
+          y: r.top + r.height / 2 - wrapRect.top + scrollY - scrollY,
+        };
+      })
+      .filter(Boolean);
+
+    // Simpler: just use offsetTop + offsetLeft relative to wrapper
+    const pts2 = dotRefs.current.map(el => {
+      if (!el) return null;
+      let ox = 0, oy = 0;
+      let node = el;
+      while (node && node !== wrapperRef.current) {
+        ox += node.offsetLeft;
+        oy += node.offsetTop;
+        node = node.offsetParent;
+      }
+      return { x: ox + el.offsetWidth / 2, y: oy + el.offsetHeight / 2 };
     }).filter(Boolean);
 
-    if (points.length < 2) return;
+    if (pts2.length < 2) return;
 
-    setDotPoints(points);
+    setDotPoints(pts2);
 
-    // Build smooth cubic bezier segments between each dot
-    let d = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = points[i];
-      const p1 = points[i + 1];
-      const midY = (p0.y + p1.y) / 2;
-      d += ` C ${p0.x} ${midY}, ${p1.x} ${midY}, ${p1.x} ${p1.y}`;
+    // Snake path: curve from each dot to the next
+    let d = `M ${pts2[0].x} ${pts2[0].y}`;
+    for (let i = 0; i < pts2.length - 1; i++) {
+      const a = pts2[i];
+      const b = pts2[i + 1];
+      const midY = (a.y + b.y) / 2;
+      d += ` C ${a.x} ${midY}, ${b.x} ${midY}, ${b.x} ${b.y}`;
     }
     setPathD(d);
   };
 
   useEffect(() => {
-    // Give DOM time to settle then measure
-    const timer = setTimeout(buildPath, 300);
-    window.addEventListener('resize', buildPath);
+    // Measure after DOM settles — use a longer delay so layout is stable
+    const t1 = setTimeout(measure, 400);
+    const t2 = setTimeout(measure, 900); // second pass for safety
+    window.addEventListener('resize', measure);
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener('resize', buildPath);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener('resize', measure);
     };
   }, [projects]);
 
-  // Variants for cards
   const slashInLeft = {
-    hidden: { opacity: 0, x: -120, skewX: 15 },
-    visible: { opacity: 1, x: 0, skewX: 0, transition: { type: 'spring', stiffness: 100, damping: 14 } }
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 16 } }
   };
   const slashInRight = {
-    hidden: { opacity: 0, x: 120, skewX: -15 },
-    visible: { opacity: 1, x: 0, skewX: 0, transition: { type: 'spring', stiffness: 100, damping: 14 } }
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 16 } }
   };
 
   return (
     <div className="pt-wrapper" ref={wrapperRef}>
-      {/* Snake SVG overlay */}
-      <svg className="pt-svg" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+
+      {/* SVG snake overlay — absolutely positioned over the wrapper */}
+      <svg
+        className="pt-svg"
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}
+      >
         <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          <filter id="ptglow">
+            <feGaussianBlur stdDeviation="4" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
-          <radialGradient id="circleGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ff6a00" />
-            <stop offset="100%" stopColor="#ff2200" />
+          <radialGradient id="cg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#ff7a00" />
+            <stop offset="100%" stopColor="#cc1a00" />
           </radialGradient>
         </defs>
 
-        {/* Main snake path */}
+        {/* Glow halo path */}
+        {pathD && <path d={pathD} fill="none" stroke="rgba(255,80,0,0.18)" strokeWidth="14" />}
+        {/* Dashed bright path */}
         {pathD && (
-          <>
-            {/* Soft glow halo */}
-            <path d={pathD} fill="none" stroke="rgba(255,69,0,0.18)" strokeWidth="14" />
-            {/* Bright dashed inner line */}
-            <path
-              d={pathD}
-              fill="none"
-              stroke="#ff4500"
-              strokeWidth="2.5"
-              strokeDasharray="12 6"
-              filter="url(#glow)"
-              className="pt-animated-dash"
-            />
-          </>
+          <path
+            d={pathD}
+            fill="none"
+            stroke="#ff4500"
+            strokeWidth="2.5"
+            strokeDasharray="12 6"
+            filter="url(#ptglow)"
+            className="pt-animated-dash"
+          />
         )}
 
-        {/* Connection circles – one per project node */}
+        {/* Circles exactly on the path nodes */}
         {dotPoints.map((pt, i) => (
           <g key={i}>
-            {/* Outer pulse ring */}
-            <circle
-              cx={pt.x} cy={pt.y} r="13"
-              fill="none"
-              stroke="rgba(255,100,0,0.35)"
-              strokeWidth="1.5"
-              className="pt-ring-pulse"
-            />
-            {/* Inner filled circle */}
-            <circle
-              cx={pt.x} cy={pt.y} r="7"
-              fill="url(#circleGrad)"
-              stroke="#000"
-              strokeWidth="2"
-              filter="url(#glow)"
-            />
-            {/* Centre bright dot */}
-            <circle cx={pt.x} cy={pt.y} r="2.5" fill="#fff" />
+            <circle cx={pt.x} cy={pt.y} r="14" fill="none" stroke="rgba(255,90,0,0.3)" strokeWidth="1.5" className="pt-ring-pulse" />
+            <circle cx={pt.x} cy={pt.y} r="8" fill="url(#cg)" stroke="#0a0a0a" strokeWidth="2.5" filter="url(#ptglow)" />
+            <circle cx={pt.x} cy={pt.y} r="2.5" fill="#ffffff" />
           </g>
         ))}
       </svg>
 
-      {/* Project cards */}
+      {/* Timeline rows */}
       <div className="pt-list">
         {projects.map((project, idx) => {
           const isLeft = idx % 2 === 0;
           return (
-            <motion.div
-              key={project.id}
-              className={`pt-row ${isLeft ? 'pt-left' : 'pt-right'}`}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={isLeft ? slashInLeft : slashInRight}
-            >
-              {/* Card */}
-              <a
+            <div key={project.id} className={`pt-row ${isLeft ? 'pt-left' : 'pt-right'}`}>
+
+              {/* Animated card */}
+              <motion.a
                 href={project.projectUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="pt-card glass-card"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={isLeft ? slashInLeft : slashInRight}
               >
                 <span className="pt-type">{project.type}</span>
                 <h4 className="pt-name">{project.name}</h4>
@@ -148,16 +149,22 @@ export default function ProjectTimeline({ projects }) {
                 <div className="project-actions">
                   <div className="btn-primary small"><Zap size={14} /> VISIT</div>
                 </div>
-              </a>
+              </motion.a>
 
-              {/* Invisible spacer dot — used ONLY for measuring position */}
+              {/*
+                The measurement anchor — NOT animated, always in true position.
+                The SVG circles are drawn ON TOP of these via dotPoints state.
+              */}
               <div
                 className="pt-dot"
                 ref={el => { dotRefs.current[idx] = el; }}
               >
-                <span className="pt-date">{project.date}</span>
+                <span className={`pt-date ${isLeft ? 'pt-date-right' : 'pt-date-left'}`}>
+                  {project.date}
+                </span>
               </div>
-            </motion.div>
+
+            </div>
           );
         })}
       </div>
