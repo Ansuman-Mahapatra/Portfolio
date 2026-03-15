@@ -262,6 +262,10 @@
   font-size: 1.2rem;
 }
 
+html {
+  scroll-snap-type: y mandatory;
+}
+
 /* Layout Utilities */
 .section-container {
   max-width: 1200px;
@@ -272,6 +276,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .section-title {
