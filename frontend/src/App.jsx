@@ -178,7 +178,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           variants={fadeInUp}
         >
           <h3 className="section-title">Origins<span className="dot">.</span></h3>
@@ -193,7 +193,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           variants={staggerContainer}
         >
           <h3 className="section-title">Battle History<span className="dot">.</span></h3>
@@ -221,7 +221,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           variants={staggerContainer}
         >
           <h3 className="section-title">Technical Arsenal<span className="dot">.</span></h3>
@@ -234,7 +234,7 @@ function App() {
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.6 }}
         >
           <h3 className="section-title">Conquests & Creations<span className="dot">.</span></h3>
@@ -247,7 +247,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           variants={staggerContainer}
         >
           <h3 className="section-title">Dark AI Core<span className="dot">.</span></h3>
@@ -272,7 +272,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           variants={fadeInUp}
           className="visit-portal glass-card"
         >
@@ -301,7 +301,7 @@ function App() {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="contact-cta"
         >
           <h2>{sections.contact?.title || "Forge an Alliance"}</h2>
@@ -320,3 +320,4 @@ function App() {
 }
 
 export default App;
+

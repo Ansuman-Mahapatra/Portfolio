@@ -25,7 +25,7 @@ export default function ProjectTimeline({ projects }) {
           variants={idx % 2 === 0 ? slashInLeft : slashInRight}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
         >
           <div className="project-type">{project.type}</div>
           <h4 className="project-name">{project.name}</h4>
@@ -45,3 +45,4 @@ export default function ProjectTimeline({ projects }) {
     </div>
   );
 }
+
