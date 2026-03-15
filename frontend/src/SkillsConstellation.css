@@ -5,37 +5,26 @@
   padding: 10px 0 40px;
 }
 
-/* ───── Mosaic grid ───── */
+/* Flexbox mosaic — no fixed areas, just natural wrapping */
 .sc-mosaic {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 180px);
-  grid-template-areas:
-    "s0 s0 s1 s2"
-    "s0 s0 s3 s2"
-    "s4 s5 s5 s6"
-    "s7 s7 s5 s6";
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   max-width: 1100px;
   margin: 0 auto;
+  justify-content: flex-start;
 }
-
-/* Tile sizing — each gets its named area */
-.tile-area-0 { grid-area: s0; }  /* Large  2×2 */
-.tile-area-1 { grid-area: s1; }  /* Small  1×1 */
-.tile-area-2 { grid-area: s2; }  /* Tall   1×2 */
-.tile-area-3 { grid-area: s3; }  /* Small  1×1 */
-.tile-area-4 { grid-area: s4; }  /* Small  1×1 */
-.tile-area-5 { grid-area: s5; }  /* Wide   2×2 */
-.tile-area-6 { grid-area: s6; }  /* Tall   1×2 */
-.tile-area-7 { grid-area: s7; }  /* Wide   2×1 */
 
 /* ───── Each tile ───── */
 .sc-tile {
+  /* Width driven by CSS variable set per tile */
+  flex: 0 0 calc(var(--tile-w, 47%) - 8px);
+  height: 200px;
   perspective: 1000px;
   cursor: pointer;
 }
 
+/* ───── Flip container ───── */
 .sc-tile-inner {
   position: relative;
   width: 100%;
@@ -77,8 +66,8 @@
 .sc-front::after {
   content: '';
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-color: var(--tile-accent, #ff4500);
   border-style: solid;
   opacity: 0.6;
@@ -94,9 +83,7 @@
 }
 .sc-tile:hover .sc-front::before,
 .sc-tile:hover .sc-front::after {
-  opacity: 1;
-  width: 38px;
-  height: 38px;
+  opacity: 1; width: 36px; height: 36px;
 }
 
 /* Inner glow pulse */
@@ -144,42 +131,42 @@
   border: 1px solid var(--tile-accent, #ff4500);
   box-shadow: inset 0 0 30px rgba(255,80,0,0.08), 0 0 20px rgba(255,60,0,0.15);
   transform: rotateY(180deg);
-  gap: 10px;
+  gap: 8px;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 18px;
+  padding: 16px;
   overflow-y: auto;
   scrollbar-width: thin;
 }
 
 .sc-back-title {
   font-family: 'Cinzel', serif;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: var(--tile-accent, #ff4500);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   flex-shrink: 0;
 }
 
 .sc-back-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
 }
 
 .sc-back-tag {
   background: rgba(255,80,0,0.08);
   border: 1px solid rgba(255,80,0,0.3);
   color: #ffc299;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border-radius: 2px;
   letter-spacing: 0.5px;
   white-space: nowrap;
-  transition: all 0.25s;
+  transition: all 0.2s;
 }
 .sc-back-tag:hover {
   background: var(--tile-accent, #ff4500);
@@ -188,9 +175,8 @@
 
 .sc-back-link {
   display: inline-block;
-  margin-top: auto;
-  padding-top: 8px;
-  font-size: 0.72rem;
+  margin-top: 6px;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--tile-accent, #ff4500);
   text-decoration: none;
@@ -202,30 +188,15 @@
 .sc-back-link:hover { color: #fff; }
 
 /* ───── Responsive ───── */
-@media (max-width: 900px) {
-  .sc-mosaic {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
-    grid-template-areas: none;
-    grid-auto-rows: 180px;
+@media (max-width: 700px) {
+  .sc-tile {
+    flex: 0 0 calc(50% - 8px);
+    height: 160px;
   }
-  /* Reset all named areas so CSS grid auto-places them */
-  .tile-area-0, .tile-area-1, .tile-area-2,
-  .tile-area-3, .tile-area-4, .tile-area-5,
-  .tile-area-6, .tile-area-7 {
-    grid-area: auto;
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-  /* Give the two most important ones a bit more space */
-  .tile-area-0 { grid-column: span 2; }
-  .tile-area-5 { grid-column: span 2; }
 }
-
-@media (max-width: 520px) {
-  .sc-mosaic {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 160px;
+@media (max-width: 420px) {
+  .sc-tile {
+    flex: 0 0 100%;
+    height: 150px;
   }
-  .tile-area-0, .tile-area-5 { grid-column: span 1; }
 }
