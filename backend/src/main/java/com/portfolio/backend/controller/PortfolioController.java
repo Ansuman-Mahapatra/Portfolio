@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,5 +86,96 @@ public class PortfolioController {
     @PostMapping("/feedback")
     public Feedback submitFeedback(@RequestBody Feedback feedback) {
         return feedbackRepo.save(feedback);
+    }
+
+    @GetMapping("/feedback")
+    public List<Feedback> getFeedback() {
+        return feedbackRepo.findAll();
+    }
+
+    @DeleteMapping("/feedback/{id}")
+    public void deleteFeedback(@PathVariable String id) {
+        feedbackRepo.deleteById(id);
+    }
+
+    // ADMIN ENDPOINTS
+
+    // Profile Management
+    @PostMapping("/admin/profile")
+    public Profile saveProfile(@RequestBody Profile profile) {
+        // If profile has no ID, find the existing one and update it
+        if (profile.getId() == null) {
+            Profile existing = profileRepo.findAll().stream().findFirst().orElse(null);
+            if (existing != null) {
+                profile.setId(existing.getId());
+            }
+        }
+        return profileRepo.save(profile);
+    }
+
+    // Project Management
+    @PostMapping("/admin/projects")
+    public Project addProject(@RequestBody Project project) {
+        return projectRepo.save(project);
+    }
+
+    @PutMapping("/admin/projects/{id}")
+    public Project updateProject(@PathVariable String id, @RequestBody Project project) {
+        project.setId(id);
+        return projectRepo.save(project);
+    }
+
+    @DeleteMapping("/admin/projects/{id}")
+    public void deleteProject(@PathVariable String id) {
+        projectRepo.deleteById(id);
+    }
+
+    @DeleteMapping("/admin/projects/truncate")
+    public void truncateProjects() {
+        projectRepo.deleteAll();
+    }
+
+    // Skill Management
+    @PostMapping("/admin/skills")
+    public Skill addSkill(@RequestBody Skill skill) {
+        return skillRepo.save(skill);
+    }
+
+    @DeleteMapping("/admin/skills/{id}")
+    public void deleteSkill(@PathVariable String id) {
+        skillRepo.deleteById(id);
+    }
+
+    @DeleteMapping("/admin/skills/truncate")
+    public void truncateSkills() {
+        skillRepo.deleteAll();
+    }
+
+    // Experience Management
+    @PostMapping("/admin/experiences")
+    public Experience addExperience(@RequestBody Experience experience) {
+        return experienceRepo.save(experience);
+    }
+
+    @DeleteMapping("/admin/experiences/{id}")
+    public void deleteExperience(@PathVariable String id) {
+        experienceRepo.deleteById(id);
+    }
+
+    // AI Integration Management
+    @PostMapping("/admin/ai-integrations")
+    public AiIntegration addAi(@RequestBody AiIntegration ai) {
+        return aiRepo.save(ai);
+    }
+
+    @DeleteMapping("/admin/ai-integrations/{id}")
+    public void deleteAi(@PathVariable String id) {
+        aiRepo.deleteById(id);
+    }
+
+    // Section Management
+    @PostMapping("/admin/sections")
+    public SectionText saveSection(@RequestBody SectionText section) {
+        return sectionTextRepo.save(section);
     }
 }
