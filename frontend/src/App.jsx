@@ -39,7 +39,10 @@ function App() {
 
     fetch(`${import.meta.env.VITE_API_URL}/projects`)
       .then(res => res.json())
-      .then(data => setProjects(data))
+      .then(data => {
+        console.log("Database conquest records synchronized:", data);
+        setProjects(data);
+      })
       .catch(err => console.error("Error fetching projects", err));
 
     fetch(`${import.meta.env.VITE_API_URL}/ai-integrations`)
