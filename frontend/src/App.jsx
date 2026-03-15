@@ -21,6 +21,12 @@ function App() {
   const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
 
   useEffect(() => {
+    // Prevent browser from jumping down to an anchor link on reload/refresh
+    if (window.location.hash) {
+      window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+
     fetch(`${import.meta.env.VITE_API_URL}/profile`)
       .then(res => res.json())
       .then(data => setProfile(data))
