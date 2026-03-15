@@ -4,16 +4,16 @@ import './SkillsConstellation.css';
 
 const ICONS = [Code2, Sword, Terminal, Zap, Globe, Shield, Monitor, Brain];
 
-// Tile sizes — mix large, medium and small for a mosaic look
-const SIZES = [
-  'tile-large',   // Programming Languages
-  'tile-medium',  // Frameworks
-  'tile-small',   // Databases
-  'tile-medium',  // Tools
-  'tile-small',   // Cloud
-  'tile-large',   // DevOps
-  'tile-small',   // OS
-  'tile-medium',  // Soft Skills
+// Explicit grid-area class per position — guarantees zero-gap mosaic
+const AREA_CLASSES = [
+  'tile-area-0',   // Programming Languages — large 2×2
+  'tile-area-1',   // Frameworks            — small 1×1
+  'tile-area-2',   // Databases             — tall  1×2
+  'tile-area-3',   // Tools                 — small 1×1
+  'tile-area-4',   // Cloud Platforms       — small 1×1
+  'tile-area-5',   // DevOps                — wide  2×2
+  'tile-area-6',   // OS                    — tall  1×2
+  'tile-area-7',   // Soft Skills           — wide  2×1
 ];
 
 const ACCENT_COLORS = [
@@ -34,7 +34,7 @@ export default function SkillsConstellation({ skills }) {
           return (
             <motion.div
               key={skill.id}
-              className={`sc-tile ${sizeClass}`}
+              className={`sc-tile ${AREA_CLASSES[i] || 'tile-area-1'}`}
               initial={{ opacity: 0, scale: 0.85 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.2 }}
