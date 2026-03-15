@@ -12,9 +12,13 @@ import com.portfolio.backend.repository.ProjectRepository;
 import com.portfolio.backend.repository.SkillRepository;
 import com.portfolio.backend.repository.ExperienceRepository;
 import com.portfolio.backend.repository.SectionTextRepository;
+import com.portfolio.backend.model.Feedback;
+import com.portfolio.backend.repository.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +46,9 @@ public class PortfolioController {
 
     @Autowired
     private SectionTextRepository sectionTextRepo;
+
+    @Autowired
+    private FeedbackRepository feedbackRepo;
 
     @GetMapping("/profile")
     public Profile getProfile() {
@@ -71,5 +78,10 @@ public class PortfolioController {
     @GetMapping("/sections")
     public List<SectionText> getSections() {
         return sectionTextRepo.findAll();
+    }
+
+    @PostMapping("/feedback")
+    public Feedback submitFeedback(@RequestBody Feedback feedback) {
+        return feedbackRepo.save(feedback);
     }
 }

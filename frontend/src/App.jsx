@@ -4,6 +4,8 @@ import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'luci
 import FireParticles from './FireParticles';
 import ProjectTimeline from './ProjectTimeline';
 import SkillsConstellation from './SkillsConstellation';
+import FeedbackSection from './FeedbackSection';
+import VisionSection from './VisionSection';
 import './App.css';
 
 function App() {
@@ -135,8 +137,9 @@ function App() {
             <a href="#experience">History</a>
             <a href="#skills">Arsenal</a>
             <a href="#projects">Conquests</a>
+            <a href="#vision">The Vision</a>
             <a href="#ai">AI Core</a>
-            <a href="#visit">Access</a>
+            <a href="#feedback">Rate</a>
           </motion.div>
         </div>
       </nav>
@@ -295,6 +298,31 @@ function App() {
           <div className="portal-glow"></div>
         </motion.div>
       </section>
+
+      {/* The Vision Section */}
+      <section id="vision" className="section-container" style={{ minHeight: '100vh', justifyContent: 'center' }}>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.8 }}
+        >
+          <VisionSection />
+        </motion.div>
+      </section>
+
+      {/* Feedback Section */}
+      <section id="feedback" className="section-container" style={{ minHeight: '100vh', justifyContent: 'center' }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false }}
+          transition={{ duration: 0.6 }}
+        >
+          <FeedbackSection />
+        </motion.div>
+      </section>
+
 
       {/* Footer / Contact */}
       <footer id="contact" className="footer">

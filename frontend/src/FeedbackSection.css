@@ -1,0 +1,71 @@
+.feedback-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px;
+}
+
+.feedback-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+}
+
+.feedback-desc {
+  color: #aaa;
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+
+.feedback-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  color: #fff;
+  padding: 15px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  resize: vertical;
+  outline: none;
+  transition: all 0.3s;
+  margin-bottom: 25px;
+}
+
+.feedback-input:focus {
+  border-color: var(--accent-color);
+  box-shadow: inset 0 0 10px rgba(255, 69, 0, 0.2), 0 0 10px rgba(255, 69, 0, 0.2);
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.feedback-button {
+  padding: 12px 24px;
+  cursor: pointer;
+  justify-content: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+.feedback-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.glow-pulse {
+  animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { filter: drop-shadow(0 0 5px var(--accent-color)); }
+  100% { filter: drop-shadow(0 0 25px var(--accent-secondary)); transform: scale(1.1); }
+}
