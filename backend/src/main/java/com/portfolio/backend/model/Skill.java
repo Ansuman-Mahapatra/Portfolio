@@ -15,4 +15,5 @@ public class Skill {
     private String id;
     private String category;
     private String skills;
+    private String officialUrl; // Link to official docs/site
 }

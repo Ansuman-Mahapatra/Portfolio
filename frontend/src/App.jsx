@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'lucide-react';
 import FireParticles from './FireParticles';
+import ProjectTimeline from './ProjectTimeline';
 import './App.css';
 
 function App() {
@@ -238,6 +239,17 @@ function App() {
                 </div>
                 <h4>{skill.category}</h4>
                 <p>{skill.skills}</p>
+                {skill.officialUrl && (
+                  <a
+                    href={skill.officialUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="skill-link"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    Visit Official Site →
+                  </a>
+                )}
               </motion.div>
             ))}
           </div>
@@ -247,57 +259,13 @@ function App() {
       {/* Projects Timeline Section */}
       <section id="projects" className="section-container">
         <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
           <h3 className="section-title">Conquests & Creations<span className="dot">.</span></h3>
-          
-          <div className="timeline-wrapper">
-            {/* The SVG Curve Line */}
-            <svg className="timeline-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path 
-                d="M 50 0 C 70 20, 30 50, 50 100" 
-                className="timeline-path"
-                vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-
-            <div className="project-timeline">
-              {projects.map((project, idx) => (
-                <motion.div 
-                  key={project.id}
-                  className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}
-                  variants={idx % 2 === 0 ? slashInLeft : slashInRight}
-                >
-                  <div className="timeline-dot">
-                    <span className="time-ago">{project.date}</span>
-                  </div>
-                  
-                  <motion.a 
-                    href={project.projectUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="project-card glass-card clickable"
-                  >
-                    <div className="project-type">{project.type}</div>
-                    <h4 className="project-name">{project.name}</h4>
-                    <p className="project-desc">{project.description}</p>
-                    <div className="project-tech">
-                      {project.technologies.split('•').map((tech, i) => (
-                        <span key={i} className="tech-badge">{tech.trim()}</span>
-                      ))}
-                    </div>
-                    <div className="project-actions">
-                      <div className="btn-primary small">
-                        <Zap size={16} /> VISIT PROTOTYPE
-                      </div>
-                    </div>
-                  </motion.a>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          <ProjectTimeline projects={projects} />
         </motion.div>
       </section>
 

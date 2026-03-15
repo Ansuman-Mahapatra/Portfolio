@@ -47,14 +47,14 @@ public class DataSeeder {
             // Seed Skills
             if (skillRepo.count() == 0) {
                 skillRepo.saveAll(List.of(
-                        new Skill(null, "Programming Languages", "C, C++, HTML5, CSS3, JavaScript (ES6+), Java, Python"),
-                        new Skill(null, "Frameworks", "Spring Boot, React.js, Node.js, Express.js, Next.js"),
-                        new Skill(null, "Databases", "MongoDB, MySQL, PostgreSQL"),
-                        new Skill(null, "Tools & Technologies", "Docker, Apache Tomcat, Git, GitHub, Postman, IntelliJ IDEA, VS Code, Eclipse, Maven"),
-                        new Skill(null, "Cloud Platforms", "AWS (S3, Lambda, DynamoDB), Firebase, Render"),
-                        new Skill(null, "DevOps", "CI/CD Pipelines, GitHub Actions, Containerization (Docker), API Development & Testing"),
-                        new Skill(null, "Operating Systems", "Windows, Linux (Ubuntu, Kali)"),
-                        new Skill(null, "Soft Skills", "Problem-Solving, Team Collaboration, Adaptability, Time Management, Communication")
+                        new Skill(null, "Programming Languages", "C, C++, HTML5, CSS3, JavaScript (ES6+), Java, Python", "https://developer.mozilla.org/en-US/docs/Web"),
+                        new Skill(null, "Frameworks", "Spring Boot, React.js, Node.js, Express.js, Next.js", "https://spring.io/projects/spring-boot"),
+                        new Skill(null, "Databases", "MongoDB, MySQL, PostgreSQL", "https://www.mongodb.com/"),
+                        new Skill(null, "Tools & Technologies", "Docker, Apache Tomcat, Git, GitHub, Postman, IntelliJ IDEA, VS Code, Eclipse, Maven", "https://www.docker.com/"),
+                        new Skill(null, "Cloud Platforms", "AWS (S3, Lambda, DynamoDB), Firebase, Render", "https://aws.amazon.com/"),
+                        new Skill(null, "DevOps", "CI/CD Pipelines, GitHub Actions, Containerization (Docker), API Development & Testing", "https://github.com/features/actions"),
+                        new Skill(null, "Operating Systems", "Windows, Linux (Ubuntu, Kali)", "https://ubuntu.com/"),
+                        new Skill(null, "Soft Skills", "Problem-Solving, Team Collaboration, Adaptability, Time Management, Communication", null)
                 ));
             }
 
