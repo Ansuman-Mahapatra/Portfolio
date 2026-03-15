@@ -1,7 +1,7 @@
 .intro-fullscreen {
   position: fixed;
   inset: 0;
-  z-index: 99999; /* Highest possible z-index to sit on top of everything */
+  z-index: 99999; 
   background: #000;
   overflow: hidden;
   display: flex;
@@ -9,28 +9,29 @@
   justify-content: center;
 }
 
-.intro-container {
+/* This container scales up smoothly to simulate a camera pushing towards the man */
+.intro-camera-push {
   position: relative;
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 16/9;
-  max-width: 100vw;
-  max-height: 100vh;
-  margin: 0 auto;
-  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center 60%; /* Zooms in slightly towards the center-bottom of the man */
 }
 
 .intro-fire-bg {
   position: absolute;
   inset: -20%;
   z-index: 1;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 60, 0, 0.8) 0%, rgba(150, 10, 0, 0.4) 40%, #000 80%);
   mix-blend-mode: color-dodge;
-  animation: introFireFlicker 0.1s infinite alternate;
+  animation: introSmoothFire 2s ease-in-out infinite alternate;
 }
 
-@keyframes introFireFlicker {
-  0% { transform: scale(1) translate(2px, 2px); }
-  100% { transform: scale(1.02) translate(-2px, -2px); }
+@keyframes introSmoothFire {
+  0% { transform: scale(1); opacity: 0.8; filter: brightness(1); }
+  100% { transform: scale(1.05); opacity: 1; filter: brightness(1.3); }
 }
 
 .intro-character-wrapper {
@@ -46,7 +47,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform-origin: 50% 80%; /* Anchors character towards the base so he flexes upwards and forwards */
+  filter: contrast(1.2) drop-shadow(0 0 30px rgba(255, 69, 0, 0.5));
 }
 
 .intro-particles {
@@ -57,10 +58,21 @@
   mix-blend-mode: screen;
 }
 
+.blood-bomb {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(139,0,0,0.8) 40%, transparent 80%);
+  border-radius: 50%;
+  box-shadow: 0 0 40px #ff0000, 0 0 80px rgba(255, 69, 0, 0.8);
+  filter: blur(2px);
+  transform: translate(-50%, -50%); /* Center the bomb exactly at its left/top coordinate */
+}
+
 .intro-blood-drop {
   position: absolute;
-  background: radial-gradient(circle, #ff1a1a 0%, #8b0000 60%, transparent 100%);
+  background: radial-gradient(circle, #ff2a2a 0%, #8b0000 60%, transparent 100%);
   border-radius: 50%;
-  box-shadow: 0 0 20px #ff0000, 0 0 40px #ff4500;
+  box-shadow: 0 0 15px #ff0000, 0 0 30px rgba(255, 50, 0, 0.8);
   filter: blur(1px);
 }
