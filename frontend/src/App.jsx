@@ -178,7 +178,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-100px" }}
+          viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
           variants={fadeInUp}
         >
           <h3 className="section-title">Origins<span className="dot">.</span></h3>
@@ -193,7 +193,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-100px" }}
+          viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
           variants={staggerContainer}
         >
           <h3 className="section-title">Battle History<span className="dot">.</span></h3>
@@ -221,7 +221,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-100px" }}
+          viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
           variants={staggerContainer}
         >
           <h3 className="section-title">Technical Arsenal<span className="dot">.</span></h3>
@@ -247,7 +247,7 @@ function App() {
         <motion.div 
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: "-100px" }}
+          viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
           variants={staggerContainer}
         >
           <h3 className="section-title">Dark AI Core<span className="dot">.</span></h3>
@@ -320,4 +320,5 @@ function App() {
 }
 
 export default App;
+
 
