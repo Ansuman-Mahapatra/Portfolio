@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'lucide-react';
 import FireParticles from './FireParticles';
 import { RadialOrbitalTimeline } from './RadialOrbitalTimeline';
 import SkillsConstellation from './SkillsConstellation';
 import FeedbackSection from './FeedbackSection';
-import VisionSection from './VisionSection';
-import IntroSplash from './IntroSplash';
 import './App.css';
 
 function App() {
@@ -16,7 +14,6 @@ function App() {
   const [aiIntegrations, setAiIntegrations] = useState([]);
   const [experiences, setExperiences] = useState([]);
   const [sections, setSections] = useState({});
-  const [showIntro, setShowIntro] = useState(true);
   
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -58,20 +55,6 @@ function App() {
       })
       .catch(err => console.error("Error fetching sections", err));
   }, []);
-
-  // Lock scrolling while splash is active
-  useEffect(() => {
-    if (showIntro) {
-      document.documentElement.style.overflow = 'hidden';
-      const timer = setTimeout(() => setShowIntro(false), 5000); // 5 sec animation duration
-      return () => {
-        clearTimeout(timer);
-        document.documentElement.style.overflow = '';
-      };
-    } else {
-      document.documentElement.style.overflow = '';
-    }
-  }, [showIntro]);
 
   if (!profile) {
     return (
@@ -130,17 +113,7 @@ function App() {
   };
 
   return (
-    <>
-      <AnimatePresence>
-        {showIntro && <IntroSplash />}
-      </AnimatePresence>
-      <div 
-        className="app-container" 
-        style={{ 
-          height: showIntro ? '100vh' : 'auto', 
-          overflow: showIntro ? 'hidden' : 'visible'
-        }}
-      >
+    <div className="app-container">
         {/* Real Animated Fire Background */}
       <FireParticles />
       
@@ -163,7 +136,6 @@ function App() {
             <a href="#experience">History</a>
             <a href="#skills">Arsenal</a>
             <a href="#projects">Conquests</a>
-            <a href="#vision">The Vision</a>
             <a href="#ai">AI Core</a>
             <a href="#feedback">Rate</a>
           </motion.div>
@@ -325,18 +297,6 @@ function App() {
         </motion.div>
       </section>
 
-      {/* The Vision Section */}
-      <section id="vision" className="section-container" style={{ minHeight: '100vh', justifyContent: 'center' }}>
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.8 }}
-        >
-          <VisionSection />
-        </motion.div>
-      </section>
-
       {/* Feedback Section */}
       <section id="feedback" className="section-container" style={{ minHeight: '100vh', justifyContent: 'center' }}>
         <motion.div 
@@ -369,8 +329,7 @@ function App() {
           <p>FORGED IN FLAME & CODE © {new Date().getFullYear()} ANSUMAN MAHAPATRA.</p>
         </div>
       </footer>
-      </div>
-    </>
+    </div>
   );
 }
 
