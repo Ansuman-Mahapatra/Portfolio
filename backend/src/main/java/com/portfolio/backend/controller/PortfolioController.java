@@ -2,14 +2,16 @@ package com.portfolio.backend.controller;
 
 import com.portfolio.backend.model.AiIntegration;
 import com.portfolio.backend.model.Profile;
-import com.portfolio.backend.model.Project;
 import com.portfolio.backend.model.Skill;
+import com.portfolio.backend.model.Project;
 import com.portfolio.backend.model.Experience;
+import com.portfolio.backend.model.SectionText;
 import com.portfolio.backend.repository.AiIntegrationRepository;
 import com.portfolio.backend.repository.ProfileRepository;
 import com.portfolio.backend.repository.ProjectRepository;
 import com.portfolio.backend.repository.SkillRepository;
 import com.portfolio.backend.repository.ExperienceRepository;
+import com.portfolio.backend.repository.SectionTextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,9 @@ public class PortfolioController {
     @Autowired
     private ExperienceRepository experienceRepo;
 
+    @Autowired
+    private SectionTextRepository sectionTextRepo;
+
     @GetMapping("/profile")
     public Profile getProfile() {
         return profileRepo.findAll().stream().findFirst().orElse(null);
@@ -61,5 +66,10 @@ public class PortfolioController {
     @GetMapping("/experiences")
     public List<Experience> getExperiences() {
         return experienceRepo.findAll();
+    }
+
+    @GetMapping("/sections")
+    public List<SectionText> getSections() {
+        return sectionTextRepo.findAll();
     }
 }

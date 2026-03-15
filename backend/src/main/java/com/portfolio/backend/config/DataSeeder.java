@@ -5,11 +5,13 @@ import com.portfolio.backend.model.Profile;
 import com.portfolio.backend.model.Project;
 import com.portfolio.backend.model.Skill;
 import com.portfolio.backend.model.Experience;
+import com.portfolio.backend.model.SectionText;
 import com.portfolio.backend.repository.AiIntegrationRepository;
 import com.portfolio.backend.repository.ProfileRepository;
 import com.portfolio.backend.repository.ProjectRepository;
 import com.portfolio.backend.repository.SkillRepository;
 import com.portfolio.backend.repository.ExperienceRepository;
+import com.portfolio.backend.repository.SectionTextRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +26,8 @@ public class DataSeeder {
                                    SkillRepository skillRepo,
                                    ProjectRepository projectRepo,
                                    AiIntegrationRepository aiRepo,
-                                   ExperienceRepository experienceRepo) {
+                                   ExperienceRepository experienceRepo,
+                                   SectionTextRepository sectionTextRepo) {
         return args -> {
             // Seed Profile
             if (profileRepo.count() == 0) {
@@ -83,6 +86,14 @@ public class DataSeeder {
                 experienceRepo.saveAll(List.of(
                         new Experience(null, "Backend Developer", "Freelance", "2023 - Present", "Designing and implementing scalable REST APIs using Spring Boot and MongoDB."),
                         new Experience(null, "AI Integration Engineer", "Tech Innovators", "2022 - 2023", "Integrated OpenAI and other LLMs into enterprise workflows to automate content generation.")
+                ));
+            }
+
+            // Seed Section Texts
+            if (sectionTextRepo.count() == 0) {
+                sectionTextRepo.saveAll(List.of(
+                    new SectionText(null, "visit", "Explore Live Prototypes", "Step through the portal to experience the full deployment of my engineering architectures."),
+                    new SectionText(null, "contact", "Forge an Alliance", "Ready to build powerful backend architectures? Let's connect and push the boundaries of technology.")
                 ));
             }
         };

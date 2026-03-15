@@ -10,6 +10,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [aiIntegrations, setAiIntegrations] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [sections, setSections] = useState({});
   
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -39,6 +40,17 @@ function App() {
       .then(res => res.json())
       .then(data => setExperiences(data))
       .catch(err => console.error("Error fetching experiences", err));
+
+    fetch(`${import.meta.env.VITE_API_URL}/sections`)
+      .then(res => res.json())
+      .then(data => {
+        const sectionsMap = data.reduce((acc, curr) => {
+          acc[curr.sectionKey] = curr;
+          return acc;
+        }, {});
+        setSections(sectionsMap);
+      })
+      .catch(err => console.error("Error fetching sections", err));
   }, []);
 
   if (!profile) {
@@ -310,9 +322,9 @@ function App() {
           className="visit-portal glass-card"
         >
           <div className="portal-content">
-            <h3 className="section-title">Deployment Portal<span className="dot">.</span></h3>
+            <h3 className="section-title">{sections.visit?.title || "Deployment Portal"}<span className="dot">.</span></h3>
             <p className="visit-description">
-              The architecture is live. Step through the gate to experience the full deployment of this demonic engine.
+              {sections.visit?.description || "The architecture is live. Step through the gate to experience the full deployment of this demonic engine."}
             </p>
             <div className="portal-actions">
               <a 
@@ -337,8 +349,8 @@ function App() {
           viewport={{ once: true }}
           className="contact-cta"
         >
-          <h2>Forge an Alliance</h2>
-          <p>Ready to build hellishly powerful backend architectures?</p>
+          <h2>{sections.contact?.title || "Forge an Alliance"}</h2>
+          <p>{sections.contact?.description || "Ready to build hellishly powerful backend architectures?"}</p>
           <a href={`mailto:ansumanmahapatre@gmail.com`} className="btn-primary large">
             <Flame size={20} style={{ marginRight: '8px' }} /> Initiate Transmission
           </a>
