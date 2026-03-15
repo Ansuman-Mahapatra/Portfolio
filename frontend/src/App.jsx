@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'lucide-react';
 import FireVineTrail from './FireVineTrail';
-import { RadialOrbitalTimeline } from './RadialOrbitalTimeline';
+import ProjectTimeline from './ProjectTimeline';
 import SkillsConstellation from './SkillsConstellation';
 import FeedbackSection from './FeedbackSection';
 import IntroSplash from './IntroSplash';
@@ -274,7 +274,7 @@ function App() {
           transition={{ duration: 0.6 }}
         >
           <h3 className="section-title">Conquests & Creations<span className="dot">.</span></h3>
-          <RadialOrbitalTimeline items={projects.map(p => ({ ...p, title: p.name, subtitle: p.type }))} />
+          <ProjectTimeline projects={projects} />
         </motion.div>
       </section>
 
