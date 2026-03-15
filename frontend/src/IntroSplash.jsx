@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
+import './IntroSplash.css';
 
 export default function IntroSplash() {
   return (
     <motion.div 
-      className="fixed inset-0 z-[99999] bg-black flex items-center justify-center overflow-hidden"
+      className="intro-splash-container"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, filter: "blur(10px)", scale: 1.1 }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
@@ -12,12 +13,12 @@ export default function IntroSplash() {
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="relative flex items-center justify-center"
+        className="intro-logo-wrapper"
       >
         <motion.img 
           src="/logo.png" 
           alt="Ansuman Logo" 
-          className="w-auto h-auto max-w-[80vw] max-h-[70vh] object-contain"
+          className="intro-logo"
           // Subtle pulse of the fire aura
           animate={{
             filter: [
