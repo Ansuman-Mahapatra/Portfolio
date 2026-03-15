@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'lucide-react';
-import FireParticles from './FireParticles';
+import FireVineTrail from './FireVineTrail';
 import { RadialOrbitalTimeline } from './RadialOrbitalTimeline';
 import SkillsConstellation from './SkillsConstellation';
 import FeedbackSection from './FeedbackSection';
@@ -146,8 +146,8 @@ function App() {
           overflow: showIntro ? 'hidden' : 'visible'
         }}
       >
-        {/* Real Animated Fire Background */}
-      <FireParticles />
+        {/* Organic Vine/Fire pointer tracking background */}
+        <FireVineTrail />
       
       {/* Navigation */}
       <nav className="glass-nav">
