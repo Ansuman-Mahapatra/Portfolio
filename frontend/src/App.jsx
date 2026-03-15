@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'lucide-react';
 import FireParticles from './FireParticles';
 import ProjectTimeline from './ProjectTimeline';
+import SkillsConstellation from './SkillsConstellation';
 import './App.css';
 
 function App() {
@@ -224,35 +225,7 @@ function App() {
           variants={staggerContainer}
         >
           <h3 className="section-title">Technical Arsenal<span className="dot">.</span></h3>
-          <div className="skills-grid">
-            {skills.map((skill, index) => (
-              <motion.div 
-                key={skill.id} 
-                variants={index % 2 === 0 ? slashInLeft : slashInRight} 
-                className="skill-card glass-card"
-              >
-                <div className="skill-icon-wrapper">
-                  {index % 4 === 0 && <Code2 size={28} className="accent-icon" />}
-                  {index % 4 === 1 && <Sword size={28} className="accent-icon" />}
-                  {index % 4 === 2 && <Terminal size={28} className="accent-icon" />}
-                  {index % 4 === 3 && <Zap size={28} className="accent-icon" />}
-                </div>
-                <h4>{skill.category}</h4>
-                <p>{skill.skills}</p>
-                {skill.officialUrl && (
-                  <a
-                    href={skill.officialUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="skill-link"
-                    onClick={e => e.stopPropagation()}
-                  >
-                    Visit Official Site →
-                  </a>
-                )}
-              </motion.div>
-            ))}
-          </div>
+          <SkillsConstellation skills={skills} />
         </motion.div>
       </section>
 

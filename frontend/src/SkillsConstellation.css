@@ -1,0 +1,192 @@
+/* SkillsConstellation.css */
+
+.sc-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0 40px;
+}
+
+/* Position hexes using CSS variables set per-element */
+.sc-hex-grid {
+  position: relative;
+  /* wide enough for 3 columns of hexes */
+  width: min(100%, 720px);
+  height: 650px;
+  margin: 0 auto;
+}
+
+.sc-hex {
+  position: absolute;
+  left: var(--hex-x);
+  top: var(--hex-y);
+  width: 200px;
+  height: 175px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Hexagon clip path */
+.sc-hex-inner {
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: linear-gradient(135deg, rgba(20,8,4,0.92), rgba(5,2,2,0.98));
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: visible;
+  transition: background 0.3s;
+}
+
+/* Glowing border via pseudo-element */
+.sc-hex::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: linear-gradient(135deg, rgba(255,100,0,0.5), rgba(255,30,0,0.2), rgba(255,100,0,0.4));
+  z-index: -1;
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+
+.sc-hex:hover::before,
+.sc-active::before {
+  opacity: 1;
+  filter: drop-shadow(0 0 12px rgba(255,80,0,0.9));
+}
+
+/* Radial glow inside hex */
+.sc-hex-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,80,0,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.sc-hex:hover .sc-hex-glow,
+.sc-active .sc-hex-glow {
+  opacity: 1;
+}
+
+/* Icon */
+.sc-icon {
+  color: #ff5500;
+  filter: drop-shadow(0 0 6px rgba(255,80,0,0.7));
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+/* Category label */
+.sc-category {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  text-align: center;
+  padding: 0 18px;
+  line-height: 1.3;
+  z-index: 1;
+}
+
+/* Expand popup — shows BELOW the hex */
+.sc-skills-popup {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8, 3, 1, 0.97);
+  border: 1px solid rgba(255,80,0,0.45);
+  padding: 14px 16px;
+  border-radius: 4px;
+  box-shadow: 0 0 24px rgba(255,60,0,0.3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 200px;
+  max-width: 280px;
+  z-index: 100;
+}
+
+/* Individual skill tags inside popup */
+.sc-tag {
+  background: rgba(255,80,0,0.1);
+  border: 1px solid rgba(255,80,0,0.35);
+  color: #ffb380;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Official docs link inside popup */
+.sc-link {
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.25s;
+}
+.sc-link:hover { color: #fff; }
+
+/* Pulsing outer ring for active hex */
+.sc-pulse-ring {
+  position: absolute;
+  inset: -8px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: 2px solid rgba(255,90,0,0.6);
+  animation: hexPulse 1.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes hexPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1);   }
+  50%       { opacity: 0;   transform: scale(1.12); }
+}
+
+/* Hint text */
+.sc-hint {
+  font-size: 0.85rem;
+  color: rgba(255,120,40,0.55);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Responsive — stack to two columns on narrow screens */
+@media (max-width: 700px) {
+  .sc-hex-grid {
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    position: static;
+  }
+  .sc-hex {
+    position: static;
+    width: 150px;
+    height: 130px;
+  }
+  .sc-category { font-size: 0.65rem; }
+}
