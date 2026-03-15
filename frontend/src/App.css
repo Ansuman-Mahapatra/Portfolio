@@ -226,6 +226,7 @@
   position: relative;
   overflow: hidden;
   text-decoration: none;
+  z-index: 10;
 }
 
 .btn-social {
@@ -634,6 +635,8 @@ html {
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
+  position: relative;
+  z-index: 10;
 }
 
 .tech-badge:hover {

@@ -47,7 +47,7 @@ export default function ProjectTimeline({ projects }) {
       {projects.map((project, idx) => (
         <motion.div
           key={project.id || idx}
-          className="glass-card flex flex-col items-start gap-4"
+          className="glass-card project-card clickable flex flex-col items-start gap-4"
           variants={idx % 2 === 0 ? slashInLeft : slashInRight}
           initial="hidden"
           whileInView="visible"
@@ -78,10 +78,11 @@ export default function ProjectTimeline({ projects }) {
 
           <div className="project-actions mt-auto pt-6 w-full border-t border-white/5">
             <a 
-              href={project.projectUrl} 
+              href={project.projectUrl && project.projectUrl !== '#' ? project.projectUrl : `https://github.com/Ansuman-Mahapatra?tab=repositories&q=${encodeURIComponent(project.name)}`} 
               target="_blank" 
               rel="noreferrer" 
-              className="btn-primary small w-full inline-flex justify-center items-center gap-2"
+              className="btn-primary small w-full inline-flex justify-center items-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              style={{ textDecoration: 'none', minHeight: '44px' }}
             >
               <Zap size={14} /> VISIT PROTOTYPE
             </a>

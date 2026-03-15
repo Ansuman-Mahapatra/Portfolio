@@ -319,10 +319,11 @@ function App() {
             </p>
             <div className="portal-actions">
               <a 
-                href="https://ansuman-mahapatra.github.io/Portfolio/" 
+                href={profile?.githubUrl || "https://github.com/Ansuman-Mahapatra"} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="btn-primary large"
+                className="btn-primary large hover:scale-105 transition-all"
+                style={{ textDecoration: 'none' }}
               >
                 <Zap size={24} /> ENTER PROTOTYPE
               </a>
