@@ -1,139 +1,177 @@
-/* ProjectTimeline.css */
+/* ProjectTimeline.css — Professional Project Card Grid */
 
-.pt-wrapper {
-  position: relative;
+.pj-wrapper {
   width: 100%;
-  padding: 20px 0 60px;
+  padding: 8px 0 20px;
 }
 
-.pt-list {
+/* 3-column grid of equal cards */
+.pj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Card shell ── */
+.pj-card {
+  background: rgba(10,4,2,0.95);
+  border: 1px solid rgba(255,69,0,0.15);
+  border-radius: 12px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  cursor: default;
+}
+
+.pj-card:hover {
+  border-color: rgba(255,80,0,0.45);
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(255,80,0,0.12),
+    0 0 40px rgba(255,60,0,0.06);
+}
+
+/* ── Hero gradient banner ── */
+.pj-hero {
+  height: 90px;
   position: relative;
-  z-index: 2;
-}
-
-/* Each row: card on left or right, dot in the center */
-.pt-row {
-  display: grid;
-  grid-template-columns: 1fr 80px 1fr; /* Wider centre column for breathing room */
-  align-items: center;
-  width: 100%;
-}
-
-/* Left card occupies column 1, dot column 2 */
-.pt-left .pt-card  { grid-column: 1; padding-right: 24px; }
-.pt-left .pt-dot   { grid-column: 2; justify-self: center; }
-
-/* Right card occupies column 3, dot column 2 */
-.pt-right .pt-card { grid-column: 3; padding-left: 24px; }
-.pt-right .pt-dot  { grid-column: 2; justify-self: center; }
-
-/* Card styles */
-.pt-card {
-  display: block;
-  text-decoration: none;
-  cursor: pointer;
-  max-width: 480px;
-  width: 100%;
-}
-
-.pt-left .pt-card  { justify-self: end; }
-.pt-right .pt-card { justify-self: start; }
-
-.pt-type {
-  display: block;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--accent-secondary);
-  margin-bottom: 8px;
-  font-weight: 700;
-}
-
-.pt-name {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: #fff;
-  font-family: 'Cinzel', serif;
-  text-shadow: 0 0 5px var(--accent-glow);
-}
-
-.pt-desc {
-  color: #ccc;
-  font-size: 1rem;
-  margin-bottom: 18px;
-  line-height: 1.6;
-}
-
-.pt-tags {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-/* Central anchor dot — invisible, used only for measuring position */
-.pt-dot {
-  position: relative;
-  width: 18px;
-  height: 18px;
-  /* Transparent — the visible circle is drawn in the SVG overlay */
-  background: transparent;
-  border-radius: 50%;
-  z-index: 3;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 14px 16px;
   flex-shrink: 0;
 }
 
-/* Date label */
-.pt-date {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.8rem;
+/* Type badge */
+.pj-type-badge {
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--accent-secondary);
-  z-index: 4;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.pt-date-right { left: calc(100% + 12px); }
-.pt-date-left  { right: calc(100% + 12px); text-align: right; }
-
-/* Animated dash on SVG path */
-.pt-animated-dash {
-  animation: dashMove 3s linear infinite;
+/* Date chip */
+.pj-date {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: rgba(255,200,160,0.6);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-@keyframes dashMove {
-  from { stroke-dashoffset: 200; }
-  to   { stroke-dashoffset: 0;   }
+/* ── Card body ── */
+.pj-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
 }
 
-/* Outer ring pulse on SVG circles */
-.pt-ring-pulse {
-  animation: ringPulse 2.5s ease-in-out infinite;
+.pj-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  letter-spacing: 0.3px;
 }
 
-@keyframes ringPulse {
-  0%, 100% { r: 14; opacity: 0.35; }
-  50%       { r: 22; opacity: 0; }
+.pj-desc {
+  font-size: 0.88rem;
+  color: rgba(220,190,170,0.7);
+  line-height: 1.65;
+  flex: 1;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .pt-row {
-    grid-template-columns: 24px 1fr;
-    gap: 12px;
-  }
-  .pt-left .pt-card,
-  .pt-right .pt-card { grid-column: 2; grid-row: 1; justify-self: stretch; max-width: 100%; padding: 0; }
-  .pt-left .pt-dot,
-  .pt-right .pt-dot  { grid-column: 1; justify-self: center; }
-  .pt-date { display: none; }
+/* ── Tech tags ── */
+.pj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
+.pj-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: rgba(255,160,100,0.75);
+  background: rgba(255,69,0,0.06);
+  border: 1px solid rgba(255,69,0,0.15);
+  border-radius: 3px;
+  padding: 3px 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.pj-tag:hover {
+  background: rgba(255,69,0,0.14);
+  color: #ff8844;
+  border-color: rgba(255,69,0,0.35);
+}
+
+/* ── Action buttons ── */
+.pj-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.pj-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.22s;
+  cursor: pointer;
+}
+
+.pj-btn-primary {
+  background: rgba(255,69,0,0.18);
+  border: 1px solid rgba(255,69,0,0.4);
+  color: #ff7733;
+}
+.pj-btn-primary:hover {
+  background: rgba(255,69,0,0.32);
+  border-color: #ff5500;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(255,69,0,0.25);
+}
+
+.pj-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+}
+.pj-btn-ghost:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1000px) {
+  .pj-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .pj-grid { grid-template-columns: 1fr; }
+}

@@ -1,170 +1,94 @@
-import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Zap } from 'lucide-react';
+import { ExternalLink, Github, Calendar } from 'lucide-react';
 import './ProjectTimeline.css';
 
+// Gradient themes per project type
+const TYPE_GRADIENTS = {
+  'Java Desktop Applications':      'linear-gradient(135deg, #3a1200 0%, #1a0800 100%)',
+  'Java Backend Projects':           'linear-gradient(135deg, #0d1f3a 0%, #060e1a 100%)',
+  'Full-Stack & Intelligent Systems':'linear-gradient(135deg, #1a0d30 0%, #080412 100%)',
+};
+
+const TYPE_BADGE_COLORS = {
+  'Java Desktop Applications':      { bg: 'rgba(255,80,0,0.15)',  color: '#ff6622', border: 'rgba(255,80,0,0.3)'  },
+  'Java Backend Projects':           { bg: 'rgba(30,100,255,0.12)', color: '#6699ff', border: 'rgba(30,100,255,0.3)' },
+  'Full-Stack & Intelligent Systems':{ bg: 'rgba(160,60,255,0.12)', color: '#cc88ff', border: 'rgba(160,60,255,0.3)' },
+};
+
+const DEFAULT_GRADIENT = 'linear-gradient(135deg, #1a0a04 0%, #080402 100%)';
+const DEFAULT_BADGE = { bg: 'rgba(255,69,0,0.12)', color: '#ff6600', border: 'rgba(255,69,0,0.3)' };
+
 export default function ProjectTimeline({ projects }) {
-  const dotRefs = useRef([]);
-  const wrapperRef = useRef(null);
-  const [pathD, setPathD] = useState('');
-  const [dotPoints, setDotPoints] = useState([]);
-
-  const measure = () => {
-    if (!wrapperRef.current) return;
-    const wrapRect = wrapperRef.current.getBoundingClientRect();
-    const scrollY = window.scrollY;
-    const scrollX = window.scrollX;
-
-    const pts = dotRefs.current
-      .map(el => {
-        if (!el) return null;
-        const r = el.getBoundingClientRect();
-        return {
-          // Position relative to wrapper, accounting for page scroll
-          x: r.left + r.width / 2 - wrapRect.left + scrollX - (wrapRect.left + scrollX - wrapRect.left),
-          y: r.top + r.height / 2 - wrapRect.top + scrollY - scrollY,
-        };
-      })
-      .filter(Boolean);
-
-    // Simpler: just use offsetTop + offsetLeft relative to wrapper
-    const pts2 = dotRefs.current.map(el => {
-      if (!el) return null;
-      let ox = 0, oy = 0;
-      let node = el;
-      while (node && node !== wrapperRef.current) {
-        ox += node.offsetLeft;
-        oy += node.offsetTop;
-        node = node.offsetParent;
-      }
-      return { x: ox + el.offsetWidth / 2, y: oy + el.offsetHeight / 2 };
-    }).filter(Boolean);
-
-    if (pts2.length < 2) return;
-
-    setDotPoints(pts2);
-
-    // Snake path: curve from each dot to the next
-    let d = `M ${pts2[0].x} ${pts2[0].y}`;
-    for (let i = 0; i < pts2.length - 1; i++) {
-      const a = pts2[i];
-      const b = pts2[i + 1];
-      const midY = (a.y + b.y) / 2;
-      d += ` C ${a.x} ${midY}, ${b.x} ${midY}, ${b.x} ${b.y}`;
-    }
-    setPathD(d);
-  };
-
-  useEffect(() => {
-    // Measure after DOM settles — use a longer delay so layout is stable
-    const t1 = setTimeout(measure, 400);
-    const t2 = setTimeout(measure, 900); // second pass for safety
-    window.addEventListener('resize', measure);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      window.removeEventListener('resize', measure);
-    };
-  }, [projects]);
-
-  const slashInLeft = {
-    hidden: { opacity: 0, x: -100 },
-    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 16 } }
-  };
-  const slashInRight = {
-    hidden: { opacity: 0, x: 100 },
-    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 16 } }
-  };
+  if (!projects || projects.length === 0) return null;
 
   return (
-    <div className="pt-wrapper" ref={wrapperRef}>
+    <div className="pj-wrapper">
+      <div className="pj-grid">
+        {projects.map((project, i) => {
+          const gradient = TYPE_GRADIENTS[project.type] || DEFAULT_GRADIENT;
+          const badge = TYPE_BADGE_COLORS[project.type] || DEFAULT_BADGE;
+          const tags = project.technologies.split('•').map(t => t.trim()).filter(Boolean);
 
-      {/* SVG snake overlay — absolutely positioned over the wrapper */}
-      <svg
-        className="pt-svg"
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}
-      >
-        <defs>
-          <filter id="ptglow">
-            <feGaussianBlur stdDeviation="4" result="b" />
-            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
-          <radialGradient id="cg" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ff7a00" />
-            <stop offset="100%" stopColor="#cc1a00" />
-          </radialGradient>
-        </defs>
-
-        {/* Glow halo path */}
-        {pathD && <path d={pathD} fill="none" stroke="rgba(255,80,0,0.18)" strokeWidth="14" />}
-        {/* Dashed bright path */}
-        {pathD && (
-          <path
-            d={pathD}
-            fill="none"
-            stroke="#ff4500"
-            strokeWidth="2.5"
-            strokeDasharray="12 6"
-            filter="url(#ptglow)"
-            className="pt-animated-dash"
-          />
-        )}
-
-        {/* Circles exactly on the path nodes */}
-        {dotPoints.map((pt, i) => (
-          <g key={i}>
-            <circle cx={pt.x} cy={pt.y} r="14" fill="none" stroke="rgba(255,90,0,0.3)" strokeWidth="1.5" className="pt-ring-pulse" />
-            <circle cx={pt.x} cy={pt.y} r="8" fill="url(#cg)" stroke="#0a0a0a" strokeWidth="2.5" filter="url(#ptglow)" />
-            <circle cx={pt.x} cy={pt.y} r="2.5" fill="#ffffff" />
-          </g>
-        ))}
-      </svg>
-
-      {/* Timeline rows */}
-      <div className="pt-list">
-        {projects.map((project, idx) => {
-          const isLeft = idx % 2 === 0;
           return (
-            <div key={project.id} className={`pt-row ${isLeft ? 'pt-left' : 'pt-right'}`}>
-
-              {/* Animated card */}
-              <motion.a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="pt-card glass-card"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={isLeft ? slashInLeft : slashInRight}
-              >
-                <span className="pt-type">{project.type}</span>
-                <h4 className="pt-name">{project.name}</h4>
-                <p className="pt-desc">{project.description}</p>
-                <div className="pt-tags">
-                  {project.technologies.split('•').map((t, i) => (
-                    <span key={i} className="tech-badge">{t.trim()}</span>
-                  ))}
-                </div>
-                <div className="project-actions">
-                  <div className="btn-primary small"><Zap size={14} /> VISIT</div>
-                </div>
-              </motion.a>
-
-              {/*
-                The measurement anchor — NOT animated, always in true position.
-                The SVG circles are drawn ON TOP of these via dotPoints state.
-              */}
-              <div
-                className="pt-dot"
-                ref={el => { dotRefs.current[idx] = el; }}
-              >
-                <span className={`pt-date ${isLeft ? 'pt-date-right' : 'pt-date-left'}`}>
-                  {project.date}
+            <motion.div
+              key={project.id || i}
+              className="pj-card"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, delay: i * 0.07 }}
+              whileHover={{ y: -6, transition: { duration: 0.22 } }}
+            >
+              {/* Hero banner */}
+              <div className="pj-hero" style={{ background: gradient }}>
+                <span
+                  className="pj-type-badge"
+                  style={{ background: badge.bg, color: badge.color, borderColor: badge.border }}
+                >
+                  {project.type}
                 </span>
+                {project.date && (
+                  <span className="pj-date">
+                    <Calendar size={11} /> {project.date}
+                  </span>
+                )}
               </div>
 
-            </div>
+              {/* Card body */}
+              <div className="pj-body">
+                <h4 className="pj-name">{project.name}</h4>
+                <p className="pj-desc">{project.description}</p>
+
+                {/* Tech stack */}
+                <div className="pj-tags">
+                  {tags.map((tag, j) => (
+                    <span key={j} className="pj-tag">{tag}</span>
+                  ))}
+                </div>
+
+                {/* Action row */}
+                <div className="pj-actions">
+                  {project.projectUrl && (
+                    <a
+                      href={project.projectUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="pj-btn pj-btn-primary"
+                    >
+                      <ExternalLink size={14} /> Live Demo
+                    </a>
+                  )}
+                  <a
+                    href={project.projectUrl || 'https://github.com/Ansuman-Mahapatra'}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="pj-btn pj-btn-ghost"
+                  >
+                    <Github size={14} /> Source
+                  </a>
+                </div>
+              </div>
+            </motion.div>
           );
         })}
       </div>
