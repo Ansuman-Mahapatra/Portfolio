@@ -684,10 +684,75 @@ html {
   z-index: 1;
 }
 
-/* Micro-transitions on scroll */
-.glass-card {
-  /* Existing styles */
-  will-change: transform, border-radius;
+/* Milestones & Citations */
+.milestones-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 40px;
+}
+
+.milestone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.milestone-card {
+  padding: 25px;
+  background: rgba(15, 15, 15, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+}
+
+.milestone-card.valor-card {
+  border-left: 3px solid var(--accent-color);
+}
+
+.milestone-card.achievement-card {
+  border-right: 3px solid var(--accent-secondary);
+  text-align: right;
+}
+
+.milestone-date {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.milestone-name {
+  font-size: 1.3rem;
+  font-family: 'Cinzel', serif;
+  color: #fff;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.milestone-sub {
+  color: #888;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.milestone-card:hover {
+  background: rgba(255, 69, 0, 0.03);
+  border-color: rgba(255, 69, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .milestones-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
 }
 
 /* Visit Section */

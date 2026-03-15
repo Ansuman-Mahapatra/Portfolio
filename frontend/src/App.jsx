@@ -14,6 +14,8 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [aiIntegrations, setAiIntegrations] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [certificates, setCertificates] = useState([]);
+  const [achievements, setAchievements] = useState([]);
   const [sections, setSections] = useState({});
   const [showIntro, setShowIntro] = useState(true);
   
@@ -41,7 +43,8 @@ function App() {
       .then(res => res.json())
       .then(data => {
         console.log("Database conquest records synchronized:", data);
-        setProjects(data);
+        const sortedProjects = (data || []).sort((a, b) => new Date(b.date) - new Date(a.date));
+        setProjects(sortedProjects);
       })
       .catch(err => console.error("Error fetching projects", err));
 
@@ -54,6 +57,16 @@ function App() {
       .then(res => res.json())
       .then(data => setExperiences(data))
       .catch(err => console.error("Error fetching experiences", err));
+
+    fetch(`${import.meta.env.VITE_API_URL}/certificates`)
+      .then(res => res.json())
+      .then(data => setCertificates(data))
+      .catch(err => console.error("Error fetching certificates", err));
+
+    fetch(`${import.meta.env.VITE_API_URL}/achievements`)
+      .then(res => res.json())
+      .then(data => setAchievements(data))
+      .catch(err => console.error("Error fetching achievements", err));
 
     fetch(`${import.meta.env.VITE_API_URL}/sections`)
       .then(res => res.json())
@@ -277,6 +290,55 @@ function App() {
           <ProjectTimeline projects={projects} />
         </motion.div>
       </section>
+
+      {/* Valor & Milestones Section */}
+      {(certificates.length > 0 || achievements.length > 0) && (
+        <section id="milestones" className="section-container">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: false }}
+            className="milestones-grid"
+          >
+            <div className="milestone-column">
+              <h3 className="section-title">Valor Citations<span className="dot">.</span></h3>
+              <div className="milestone-list">
+                {certificates.map((cert) => (
+                  <motion.a 
+                    key={cert.id}
+                    href={cert.certificateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="milestone-card valor-card"
+                    whileHover={{ scale: 1.02, x: 10 }}
+                  >
+                    <div className="milestone-date">{cert.date}</div>
+                    <h4 className="milestone-name">{cert.title}</h4>
+                    <p className="milestone-sub">{cert.issuer}</p>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+
+            <div className="milestone-column">
+              <h3 className="section-title">Legendary Milestones<span className="dot">.</span></h3>
+              <div className="milestone-list">
+                {achievements.map((ach) => (
+                  <motion.div 
+                    key={ach.id}
+                    className="milestone-card achievement-card"
+                    whileHover={{ scale: 1.02, x: -10 }}
+                  >
+                    <div className="milestone-date">{ach.date}</div>
+                    <h4 className="milestone-name">{ach.title}</h4>
+                    <p className="milestone-sub">{ach.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </section>
+      )}
 
       {/* AI Integrations */}
       <section id="ai" className="section-container">

@@ -13,6 +13,10 @@ import com.portfolio.backend.repository.SkillRepository;
 import com.portfolio.backend.repository.ExperienceRepository;
 import com.portfolio.backend.repository.SectionTextRepository;
 import com.portfolio.backend.model.Feedback;
+import com.portfolio.backend.model.Certificate;
+import com.portfolio.backend.model.Achievement;
+import com.portfolio.backend.repository.CertificateRepository;
+import com.portfolio.backend.repository.AchievementRepository;
 import com.portfolio.backend.repository.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,7 +33,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*") // Allow frontend to fetch data
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"}) // Allow both frontends
 public class PortfolioController {
 
     @Autowired
@@ -52,6 +56,12 @@ public class PortfolioController {
 
     @Autowired
     private FeedbackRepository feedbackRepo;
+
+    @Autowired
+    private CertificateRepository certificateRepo;
+
+    @Autowired
+    private AchievementRepository achievementRepo;
 
     @GetMapping("/profile")
     public Profile getProfile() {
@@ -81,6 +91,16 @@ public class PortfolioController {
     @GetMapping("/sections")
     public List<SectionText> getSections() {
         return sectionTextRepo.findAll();
+    }
+
+    @GetMapping("/certificates")
+    public List<Certificate> getCertificates() {
+        return certificateRepo.findAll();
+    }
+
+    @GetMapping("/achievements")
+    public List<Achievement> getAchievements() {
+        return achievementRepo.findAll();
     }
 
     @PostMapping("/feedback")
@@ -141,6 +161,12 @@ public class PortfolioController {
         return skillRepo.save(skill);
     }
 
+    @PutMapping("/admin/skills/{id}")
+    public Skill updateSkill(@PathVariable String id, @RequestBody Skill skill) {
+        skill.setId(id);
+        return skillRepo.save(skill);
+    }
+
     @DeleteMapping("/admin/skills/{id}")
     public void deleteSkill(@PathVariable String id) {
         skillRepo.deleteById(id);
@@ -157,6 +183,12 @@ public class PortfolioController {
         return experienceRepo.save(experience);
     }
 
+    @PutMapping("/admin/experiences/{id}")
+    public Experience updateExperience(@PathVariable String id, @RequestBody Experience experience) {
+        experience.setId(id);
+        return experienceRepo.save(experience);
+    }
+
     @DeleteMapping("/admin/experiences/{id}")
     public void deleteExperience(@PathVariable String id) {
         experienceRepo.deleteById(id);
@@ -168,9 +200,49 @@ public class PortfolioController {
         return aiRepo.save(ai);
     }
 
+    @PutMapping("/admin/ai-integrations/{id}")
+    public AiIntegration updateAi(@PathVariable String id, @RequestBody AiIntegration ai) {
+        ai.setId(id);
+        return aiRepo.save(ai);
+    }
+
     @DeleteMapping("/admin/ai-integrations/{id}")
     public void deleteAi(@PathVariable String id) {
         aiRepo.deleteById(id);
+    }
+
+    // Certificate Management
+    @PostMapping("/admin/certificates")
+    public Certificate addCertificate(@RequestBody Certificate cert) {
+        return certificateRepo.save(cert);
+    }
+
+    @PutMapping("/admin/certificates/{id}")
+    public Certificate updateCertificate(@PathVariable String id, @RequestBody Certificate cert) {
+        cert.setId(id);
+        return certificateRepo.save(cert);
+    }
+
+    @DeleteMapping("/admin/certificates/{id}")
+    public void deleteCertificate(@PathVariable String id) {
+        certificateRepo.deleteById(id);
+    }
+
+    // Achievement Management
+    @PostMapping("/admin/achievements")
+    public Achievement addAchievement(@RequestBody Achievement achievement) {
+        return achievementRepo.save(achievement);
+    }
+
+    @PutMapping("/admin/achievements/{id}")
+    public Achievement updateAchievement(@PathVariable String id, @RequestBody Achievement achievement) {
+        achievement.setId(id);
+        return achievementRepo.save(achievement);
+    }
+
+    @DeleteMapping("/admin/achievements/{id}")
+    public void deleteAchievement(@PathVariable String id) {
+        achievementRepo.deleteById(id);
     }
 
     // Section Management
