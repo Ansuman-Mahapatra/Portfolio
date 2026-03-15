@@ -244,7 +244,7 @@ function App() {
         </motion.div>
       </section>
 
-      {/* Projects Section */}
+      {/* Projects Timeline Section */}
       <section id="projects" className="section-container">
         <motion.div 
           initial="hidden"
@@ -252,37 +252,51 @@ function App() {
           viewport={{ once: true, margin: "-100px" }}
         >
           <h3 className="section-title">Conquests & Creations<span className="dot">.</span></h3>
-          <div className="projects-grid">
-            {projects.map((project, idx) => (
-              <motion.a 
-                href={project.projectUrl}
-                target="_blank"
-                rel="noreferrer"
-                key={project.id} 
-                className="project-card glass-card clickable"
-                variants={idx % 2 === 0 ? slashInLeft : slashInRight}
-              >
-                <div className="project-type">{project.type}</div>
-                <h4 className="project-name">{project.name}</h4>
-                <p className="project-desc">{project.description}</p>
-                <div className="project-tech">
-                  {project.technologies.split('•').map((tech, i) => (
-                    <span key={i} className="tech-badge">{tech.trim()}</span>
-                  ))}
-                </div>
-                <div className="project-actions">
-                  <a 
-                    href={project.projectUrl} 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="btn-primary small"
-                    onClick={(e) => e.stopPropagation()}
+          
+          <div className="timeline-wrapper">
+            {/* The SVG Curve Line */}
+            <svg className="timeline-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <path 
+                d="M 50 0 C 70 20, 30 50, 50 100" 
+                className="timeline-path"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+
+            <div className="project-timeline">
+              {projects.map((project, idx) => (
+                <motion.div 
+                  key={project.id}
+                  className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}
+                  variants={idx % 2 === 0 ? slashInLeft : slashInRight}
+                >
+                  <div className="timeline-dot">
+                    <span className="time-ago">{project.date}</span>
+                  </div>
+                  
+                  <motion.a 
+                    href={project.projectUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-card glass-card clickable"
                   >
-                    <Zap size={16} /> VISIT PROTOTYPE
-                  </a>
-                </div>
-              </motion.a>
-            ))}
+                    <div className="project-type">{project.type}</div>
+                    <h4 className="project-name">{project.name}</h4>
+                    <p className="project-desc">{project.description}</p>
+                    <div className="project-tech">
+                      {project.technologies.split('•').map((tech, i) => (
+                        <span key={i} className="tech-badge">{tech.trim()}</span>
+                      ))}
+                    </div>
+                    <div className="project-actions">
+                      <div className="btn-primary small">
+                        <Zap size={16} /> VISIT PROTOTYPE
+                      </div>
+                    </div>
+                  </motion.a>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </section>

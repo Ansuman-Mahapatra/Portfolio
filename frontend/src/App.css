@@ -466,7 +466,99 @@
   filter: brightness(1.2);
 }
 
-/* Projects Section - Balanced Centered Grid handled above */
+/* Projects Timeline Section */
+.timeline-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 40px 0;
+}
+
+.timeline-svg {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px; /* Width of the S-curve */
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.timeline-path {
+  fill: none;
+  stroke: var(--accent-color);
+  stroke-width: 2;
+  stroke-dasharray: 10, 5;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+  opacity: 0.4;
+}
+
+.project-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 150px; /* Large gap for zigzag */
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: relative;
+}
+
+.timeline-item.left {
+  justify-content: flex-start;
+  padding-right: 50%;
+}
+
+.timeline-item.right {
+  justify-content: flex-end;
+  padding-left: 50%;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: var(--accent-color);
+  border: 4px solid #000;
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-ago {
+  position: absolute;
+  width: 150px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-secondary);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.timeline-item.left .time-ago {
+  left: 60px;
+  text-align: left;
+}
+
+.timeline-item.right .time-ago {
+  right: 60px;
+  text-align: right;
+}
+
+.project-card.clickable {
+  width: 100%;
+  max-width: 450px;
+}
 
 .project-type {
   font-size: 0.9rem;
