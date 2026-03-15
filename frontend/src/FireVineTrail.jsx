@@ -107,9 +107,13 @@ export default function FireVineTrail() {
     window.addEventListener('mousemove', mouseMove);
 
     function loop() {
-      // The classic "living vine" slow fade effect, allowing the path to look like glowing embers
+      // Fade out old vines towards transparency (destination-out subtraction)
+      ctx.globalCompositeOperation = 'destination-out';
       ctx.fillStyle = 'rgba(0, 0, 0, 0.08)'; 
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw new vines normally
+      ctx.globalCompositeOperation = 'source-over';
 
       for (let i = 0; i < tendrils.length; i++) {
         const t = tendrils[i];
