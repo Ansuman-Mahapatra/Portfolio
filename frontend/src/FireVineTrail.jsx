@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import './FireParticles.css';
 
 export default function FireVineTrail() {
   const canvasRef = useRef(null);
@@ -136,18 +137,26 @@ export default function FireVineTrail() {
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        pointerEvents: 'none', // Crucial so you can still click things underneath
-        zIndex: 40,
-        mixBlendMode: 'screen'
-      }}
-    />
+    <>
+      {/* Restore previous animated dark/orange background */}
+      <div className="fire-particles-container">
+        <div className="fire-bg-shift"></div>
+        <div className="fire-base"></div>
+      </div>
+
+      <canvas 
+        ref={canvasRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          pointerEvents: 'none', // Crucial so you can still click things underneath
+          zIndex: 40,
+          mixBlendMode: 'screen'
+        }}
+      />
+    </>
   );
 }
