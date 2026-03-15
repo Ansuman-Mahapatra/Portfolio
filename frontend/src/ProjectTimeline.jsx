@@ -9,6 +9,8 @@ export default function ProjectTimeline({ projects }) {
   const wrapperRef = useRef(null);
 
   // Build the smooth snake SVG path by measuring dot positions
+  const [dotPoints, setDotPoints] = useState([]);
+
   const buildPath = () => {
     if (!wrapperRef.current || dotRefs.current.length === 0) return;
     const wrapRect = wrapperRef.current.getBoundingClientRect();
@@ -24,13 +26,14 @@ export default function ProjectTimeline({ projects }) {
 
     if (points.length < 2) return;
 
+    setDotPoints(points);
+
     // Build smooth cubic bezier segments between each dot
     let d = `M ${points[0].x} ${points[0].y}`;
     for (let i = 0; i < points.length - 1; i++) {
       const p0 = points[i];
       const p1 = points[i + 1];
       const midY = (p0.y + p1.y) / 2;
-      // Control points: go straight down to midpoint, then curve across
       d += ` C ${p0.x} ${midY}, ${p1.x} ${midY}, ${p1.x} ${p1.y}`;
     }
     setPathD(d);
@@ -65,12 +68,18 @@ export default function ProjectTimeline({ projects }) {
             <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
+          <radialGradient id="circleGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#ff6a00" />
+            <stop offset="100%" stopColor="#ff2200" />
+          </radialGradient>
         </defs>
+
+        {/* Main snake path */}
         {pathD && (
           <>
-            {/* Glowing background stroke */}
-            <path d={pathD} fill="none" stroke="rgba(255,69,0,0.25)" strokeWidth="12" />
-            {/* Bright inner stroke */}
+            {/* Soft glow halo */}
+            <path d={pathD} fill="none" stroke="rgba(255,69,0,0.18)" strokeWidth="14" />
+            {/* Bright dashed inner line */}
             <path
               d={pathD}
               fill="none"
@@ -82,6 +91,30 @@ export default function ProjectTimeline({ projects }) {
             />
           </>
         )}
+
+        {/* Connection circles – one per project node */}
+        {dotPoints.map((pt, i) => (
+          <g key={i}>
+            {/* Outer pulse ring */}
+            <circle
+              cx={pt.x} cy={pt.y} r="13"
+              fill="none"
+              stroke="rgba(255,100,0,0.35)"
+              strokeWidth="1.5"
+              className="pt-ring-pulse"
+            />
+            {/* Inner filled circle */}
+            <circle
+              cx={pt.x} cy={pt.y} r="7"
+              fill="url(#circleGrad)"
+              stroke="#000"
+              strokeWidth="2"
+              filter="url(#glow)"
+            />
+            {/* Centre bright dot */}
+            <circle cx={pt.x} cy={pt.y} r="2.5" fill="#fff" />
+          </g>
+        ))}
       </svg>
 
       {/* Project cards */}
@@ -117,7 +150,7 @@ export default function ProjectTimeline({ projects }) {
                 </div>
               </a>
 
-              {/* Central dot with date label */}
+              {/* Invisible spacer dot — used ONLY for measuring position */}
               <div
                 className="pt-dot"
                 ref={el => { dotRefs.current[idx] = el; }}

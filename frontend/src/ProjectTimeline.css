@@ -17,17 +17,17 @@
 /* Each row: card on left or right, dot in the center */
 .pt-row {
   display: grid;
-  grid-template-columns: 1fr 60px 1fr;
+  grid-template-columns: 1fr 80px 1fr; /* Wider centre column for breathing room */
   align-items: center;
   width: 100%;
 }
 
 /* Left card occupies column 1, dot column 2 */
-.pt-left .pt-card  { grid-column: 1; }
+.pt-left .pt-card  { grid-column: 1; padding-right: 24px; }
 .pt-left .pt-dot   { grid-column: 2; justify-self: center; }
 
 /* Right card occupies column 3, dot column 2 */
-.pt-right .pt-card { grid-column: 3; }
+.pt-right .pt-card { grid-column: 3; padding-left: 24px; }
 .pt-right .pt-dot  { grid-column: 2; justify-self: center; }
 
 /* Card styles */
@@ -129,6 +129,17 @@
 @keyframes dashMove {
   from { stroke-dashoffset: 200; }
   to   { stroke-dashoffset: 0; }
+}
+
+/* Outer ring pulse on SVG circles */
+.pt-ring-pulse {
+  animation: ringPulse 2.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes ringPulse {
+  0%, 100% { r: 13; opacity: 0.4; }
+  50%       { r: 20; opacity: 0; }
 }
 
 /* Responsive */
