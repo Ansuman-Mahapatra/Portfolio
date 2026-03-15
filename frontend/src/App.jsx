@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, Zap, Terminal, Code2, Flame, Sword } from 'lucide-react';
 import FireParticles from './FireParticles';
 import { RadialOrbitalTimeline } from './RadialOrbitalTimeline';
 import SkillsConstellation from './SkillsConstellation';
 import FeedbackSection from './FeedbackSection';
+import IntroSplash from './IntroSplash';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   const [aiIntegrations, setAiIntegrations] = useState([]);
   const [experiences, setExperiences] = useState([]);
   const [sections, setSections] = useState({});
+  const [showIntro, setShowIntro] = useState(true);
   
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -55,6 +57,20 @@ function App() {
       })
       .catch(err => console.error("Error fetching sections", err));
   }, []);
+
+  // Lock scrolling while splash is active (3 seconds)
+  useEffect(() => {
+    if (showIntro) {
+      document.documentElement.style.overflow = 'hidden';
+      const timer = setTimeout(() => setShowIntro(false), 3000); 
+      return () => {
+        clearTimeout(timer);
+        document.documentElement.style.overflow = '';
+      };
+    } else {
+      document.documentElement.style.overflow = '';
+    }
+  }, [showIntro]);
 
   if (!profile) {
     return (
@@ -113,7 +129,17 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <>
+      <AnimatePresence>
+        {showIntro && <IntroSplash />}
+      </AnimatePresence>
+      <div 
+        className="app-container"
+        style={{ 
+          height: showIntro ? '100vh' : 'auto', 
+          overflow: showIntro ? 'hidden' : 'visible'
+        }}
+      >
         {/* Real Animated Fire Background */}
       <FireParticles />
       
@@ -329,7 +355,8 @@ function App() {
           <p>FORGED IN FLAME & CODE © {new Date().getFullYear()} ANSUMAN MAHAPATRA.</p>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }
 
